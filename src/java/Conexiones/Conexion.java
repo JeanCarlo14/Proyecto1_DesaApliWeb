@@ -12,13 +12,13 @@ import java.util.Properties;
 
 public class Conexion {
     
-    static Connection con = null;
     static String Servidor = "localhost";
     static String Database = "BD_Project1";
     static String UserName = "sa";
     static String Password = "123";
     
     public static Connection getConnection(){
+        Connection con = null;
         String url = "jdbc:sqlserver://"+Servidor+":1433;databaseName="+Database;
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -39,7 +39,7 @@ public class Conexion {
         return con;
     }
     
-    public void cerrarConexion() {
+    public static void cerrarConexion(Connection con) {
         try {
             con.close();
         } catch (SQLException e) {
