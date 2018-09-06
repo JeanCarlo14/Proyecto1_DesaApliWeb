@@ -28,14 +28,14 @@ public class CompuertaProductos {
     private static final String POR_ID = " WHERE id=?";
     private static final String POR_MARCA = " WHERE marca=?";
     private static final String POR_NOMBRE_MARCA = " WHERE marca=(SELECT id FROM Marcas WHERE nombre=?)";
-    private static final String POR_DESCRIPCION = " WHERE descripcion LIKE %?%";
+    private static final String POR_DESCRIPCION = " WHERE descripcion LIKE ?";
     private static final String DELETE_PRODUCTO = "DELETE * FROM Productos WHERE id=?";
     
     public ArrayList<Producto> obtenerTodos(){
         ArrayList<Producto> prods = new ArrayList();
         Connection con = Conexion.getConnection();
-        Statement stmt =  null;
-        ResultSet rs = null;
+        Statement stmt;
+        ResultSet rs;
         
         try {
             stmt = con.createStatement();
@@ -62,8 +62,8 @@ public class CompuertaProductos {
     public Producto obtenerPorID(int id){
         Producto prod = null;
         Connection con = Conexion.getConnection();
-        PreparedStatement stmt =  null;
-        ResultSet rs = null;
+        PreparedStatement stmt;
+        ResultSet rs;
         
         try {
             stmt = con.prepareStatement(SELECT_PRODUCTOS+POR_ID);
@@ -89,8 +89,8 @@ public class CompuertaProductos {
     public ArrayList<Producto> obtenerPorMarca(int marca){
         ArrayList<Producto> prods = new ArrayList();
         Connection con = Conexion.getConnection();
-        PreparedStatement stmt =  null;
-        ResultSet rs = null;
+        PreparedStatement stmt;
+        ResultSet rs;
         
         try {
             stmt = con.prepareStatement(SELECT_PRODUCTOS+POR_MARCA);
@@ -118,8 +118,8 @@ public class CompuertaProductos {
     public ArrayList<Producto> obtenerPorNombreMarca(String marca){
         ArrayList<Producto> prods = new ArrayList();
         Connection con = Conexion.getConnection();
-        PreparedStatement stmt =  null;
-        ResultSet rs = null;
+        PreparedStatement stmt;
+        ResultSet rs;
         
         try {
             stmt = con.prepareStatement(SELECT_PRODUCTOS+POR_NOMBRE_MARCA);
@@ -147,12 +147,12 @@ public class CompuertaProductos {
     public ArrayList<Producto> obtenerPorDescripcion(String des){
         ArrayList<Producto> prods = new ArrayList();
         Connection con = Conexion.getConnection();
-        PreparedStatement stmt =  null;
-        ResultSet rs = null;
+        PreparedStatement stmt;
+        ResultSet rs;
         
         try {
             stmt = con.prepareStatement(SELECT_PRODUCTOS+POR_DESCRIPCION);
-            stmt.setString(1, des);
+            stmt.setString(1, "%"+des+"%");
             rs = stmt.executeQuery();
             
             while(rs.next()){
@@ -176,8 +176,8 @@ public class CompuertaProductos {
     public boolean eliminarProducto(int id){
         boolean res = false;
         Connection con = Conexion.getConnection();
-        PreparedStatement stmt =  null;
-        int count = 0;
+        PreparedStatement stmt;
+        int count;
         
         try {
             stmt = con.prepareStatement(DELETE_PRODUCTO);
@@ -209,6 +209,7 @@ public class CompuertaProductos {
             p.setCantidad(rs.getInt(PROD_CANT));
         } catch (SQLException ex) {
             p = null;
+            System.err.println(ex.getMessage());
         }
         return p;
     }
