@@ -8,8 +8,8 @@ function creaCardProducto(prod) {
     var cardHtml = '   <div class="col_1_of_3 span_1_of_3"><a href="single.jsp">' +
             '<div class="view view-fifth">' +
             '<div class="top_box">' +
-            '<h3 class="m_1">'+prod.descripcion+'</h3>' +
-            '<p class="m_2">'+prod.marca+'</p>' +
+            '<h3 class="m_1">' + prod.descripcion + '</h3>' +
+            '<p class="m_2">' + prod.marca + '</p>' +
             '<div class="grid_img">' +
             '<div class="css3"><img src="images/pic5.jpg" alt=""/></div>' +
             '<div class="mask">' +
@@ -46,8 +46,7 @@ function creaCardProducto(prod) {
             '			   </li>' +
             '		     </ul>' +
             '   	    <div class="clear"></div>' +
-            '  	</a></div>' +
-            '	  <div class="clear"></div>';
+            '  	</a></div>';
     return cardHtml;
 }
 
@@ -109,10 +108,16 @@ function productos() {
 }
 
 function addProds(prodList) {
-    var prodCards = "";
+    var prodCards = '<div class="content group">';
     for (var key in prodList) {
+        if (key % 3 === 0) {
+            prodCards = prodCards.concat('<div class="content group">');
+        }
         var prod = prodList[key];
         prodCards = prodCards.concat(creaCardProducto(prod));
+        if ((key + 1) % 3 === 0 || key == (prodList.length-1)) {
+            prodCards = prodCards.concat('<div class="clear"></div></div>');
+        }
     }
-    $("#box1").html(prodCards);
+    $("#prod-list").html(prodCards);
 }
