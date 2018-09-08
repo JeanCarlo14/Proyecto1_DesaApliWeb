@@ -15,7 +15,7 @@ public class Conexion {
     static String Servidor = "localhost";
     static String Database = "BD_Project1";
     static String UserName = "sa";
-    static String Password = "Abcd1234";
+    static String Password = "123";
     
     public static Connection getConnection(){
         Connection con = null;

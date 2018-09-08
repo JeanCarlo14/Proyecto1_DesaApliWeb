@@ -7,6 +7,7 @@ package ArticulosServer;
 
 import Conexiones.CompuertaMarcas;
 import Conexiones.CompuertaProductos;
+import Conexiones.ManagerServlet;
 import Conexiones.Producto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,7 +47,7 @@ public class ArticulosServlet extends HttpServlet {
 
                 switch (accion) {
                     case "a":
-                        mensaje = metodo1(request, response);
+                        mensaje = cargarListaProductos(request, response);
                         break;
                     case "b":
                         mensaje = metodo2(request, response);
@@ -134,6 +135,39 @@ public class ArticulosServlet extends HttpServlet {
         nodoData.put("estado", true);
         return nodoData.toString();
     }
+    
+    
+    private String cargarListaProductos(HttpServletRequest request, HttpServletResponse response) {
+		/* Formato JSON */
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONArray jsonArr = new JSONArray();
+		JSONObject nodoProducto = new JSONObject();
+		
+		ManagerServlet mngServlet = new ManagerServlet();
+		ArrayList<Producto> listaProductos = mngServlet.consultarProductos();
+
+		for (int i = 0; i < listaProductos.size(); i++) {
+			nodoProducto = new JSONObject();
+			nodoProducto.put("id", listaProductos.get(i).getId());
+			nodoProducto.put("marca",listaProductos.get(i).getMarca() );
+			nodoProducto.put("descripcion",listaProductos.get(i).getDescripcion() );
+			nodoProducto.put("precio", listaProductos.get(i).getPrecio());
+                        nodoProducto.put("cantidad",listaProductos.get(i).getCantidad() );
+			jsonArr.add(nodoProducto);
+		}
+
+		JSONObject mainObj = new JSONObject();
+		//try {
+			mainObj.put("productos", jsonArr);
+			//mainObj.put("total", mngFacturar.getMaximo());
+			
+			return mainObj.toString();
+		/*} catch (JSONException e) {
+			e.printStackTrace();
+			return "{}";
+		}	*/
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
