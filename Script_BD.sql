@@ -44,7 +44,7 @@ GO
 
 ---------- Tabla 3 Carritos -----------
 CREATE TABLE [Carritos](
-		[Id]		            [int]           NOT NULL,
+		[Id]		            int IDENTITY(1,1)  NOT NULL,
 		[Usuario] 			    [int]           NOT NULL,
 		[Checkout]				[bit]          NOT NULL,
 
@@ -101,7 +101,7 @@ GO
 
 ---------- Tabla 6 Items -----------
 CREATE TABLE [Items](
-		[Id]		            [int]           NOT NULL,
+		[Id]		            int IDENTITY(1,1)  NOT NULL,
 		[Carrito] 		    	[int]           NOT NULL,
 		[Producto]			    [int]           NOT NULL,
     [Cantidad]          [int]           NOT NULL
@@ -132,7 +132,7 @@ GO
 
 ---------- Tabla 7 Categorias -----------
 CREATE TABLE [Categorias](
-		[Id]		            [int]           NOT NULL,
+		[Id]		           int IDENTITY(1,1)  NOT NULL,
 		[Nombre] 		    	[nvarchar](255) NOT NULL
 
   CONSTRAINT [PK_Categoria] PRIMARY KEY CLUSTERED 
@@ -170,14 +170,231 @@ ALTER TABLE [CategoriasProductos] CHECK CONSTRAINT [FK2_CategoriasProductos]
 GO
 
 
-/* prodecimientos  */
+/* Prodecimientos  */
+use BD_Project1
+go
+
+--- Seleccionar Productos ---
 create PROCEDURE PA001
 AS
 BEGIN
 SELECT PRODUCTOS.ID,MARCAS.Nombre AS MARCA,DESCRIPCION,PRECIO,CANTIDAD FROM PRODUCTOS,MARCAS WHERE Productos.Marca = MARCAS.Id 
 END
-GO; 
+GO
+
+--- Seleccionar Usuario ---
+CREATE PROCEDURE PA002
+  @Id int
+  AS
+  BEGIN
+    SELECT Id, Nombre, Apellido1, Apellido2, Email FROM Usuarios WHERE Id= @Id
+  END
+GO
+
+-- Crear Usuario --
+CREATE PROCEDURE PA003
+    @Id int, 
+    @Nombre NVARCHAR(255),
+    @Apellido1 NVARCHAR(255),
+    @Apellido2 NVARCHAR(255),
+    @Email NVARCHAR(255),
+    @Pass NVARCHAR(255)
+AS
+BEGIN
+      SET NOCOUNT ON;
+            INSERT INTO Usuarios(Id, Nombre, Apellido1, Apellido2, Email, Pass)
+            VALUES (@Id, @Nombre, @Apellido1, @Apellido2, @Email, @Pass);
+END
+GO
+
+-- Actualizar Usuario --
+CREATE PROCEDURE PA004
+    @Id int, 
+    @Nombre NVARCHAR(255),
+    @Apellido1 NVARCHAR(255),
+    @Apellido2 NVARCHAR(255),
+    @Email NVARCHAR(255)
+AS
+BEGIN
+      SET NOCOUNT ON;
+        UPDATE Usuarios
+            SET   Nombre = @Nombre,
+            Apellido1 = @Apellido1,  Apellido2 = @Apellido2, Email = @Email
+            WHERE Id = @Id 
+END
+GO
+
+-- Insertar Tarjeta ---
+CREATE PROCEDURE PA005
+    @Numero int, 
+    @Usuario int,
+    @Fecha_Exp date,
+    @Ccv int
+AS
+BEGIN
+      SET NOCOUNT ON;
+            INSERT INTO Tarjetas(Numero, Usuario, Fecha_Exp, Ccv)
+            VALUES (@Numero, @Usuario, @Fecha_Exp, @Ccv);
+END
+GO
+
+-- Seleccionar Tarjeta Por Id Tarjeta ---
+CREATE PROCEDURE PA006
+    @Numero int
+AS
+BEGIN
+      SET NOCOUNT ON;
+           Select Numero, Usuarios.Nombre, Fecha_Exp, Ccv from Tarjetas, Usuarios
+           where Numero = @Numero and Tarjetas.Usuario = Usuarios.Id 
+END
+GO
+
+-- Seleccionar Tarjeta Por Usuario Tarjeta ---
+CREATE PROCEDURE PA007
+    @Usuario int
+AS
+BEGIN
+      SET NOCOUNT ON;
+           Select Numero, Usuarios.Nombre, Fecha_Exp, Ccv from Tarjetas, Usuarios
+           where Usuario = @Usuario and Tarjetas.Usuario = Usuarios.Id 
+END
+GO
 
 
+----- Crear Carrito --------
+CREATE PROCEDURE PA008
+    @Usuario int,
+    @Checkout bit
+AS
+BEGIN
+      SET NOCOUNT ON;
+            INSERT INTO Carritos(Usuario, Checkout)
+            VALUES (@Usuario, @Checkout);
+END
+GO
+
+---- Actualizar Carrito ------
+CREATE PROCEDURE PA009
+    @Id int, 
+    @Checkout bit
+AS
+BEGIN
+      SET NOCOUNT ON;
+        UPDATE Carritos
+            SET   Checkout = @Checkout
+            WHERE Id = @Id 
+END
+GO
+
+
+-- Seleccionar Carrito por Usuario y Checkout = 0----
+CREATE PROCEDURE PA010
+    @Usuario int
+AS
+BEGIN
+      SET NOCOUNT ON;
+           Select Id, Usuario, Checkout from Carritos
+           where Usuario = @Usuario and Checkout = 0 
+END
+GO
+
+
+---- Actualizar la Cantidad de Productos  ------
+CREATE PROCEDURE PA011
+    @Id int,
+    @Can int
+AS
+BEGIN
+      SET NOCOUNT ON;
+      declare 
+        @canAux int
+        SELECT @canAux = Cantidad FROM Productos WHERE Id = @Id
+
+        SELECT @canAux = @canAux - @Can
+
+        UPDATE Productos
+            SET   Cantidad = @canAux
+            WHERE Id = @Id 
+END
+GO
+
+
+----- Crear Items --------
+CREATE PROCEDURE PA012
+    @Carrito int,
+    @Producto int,
+    @Cantidad int
+AS
+BEGIN
+      SET NOCOUNT ON;
+            INSERT INTO Items(Carrito, Producto, Cantidad)
+            VALUES (@Carrito, @Producto, @Cantidad);
+END
+GO
+
+--- Seleccionar Items por Id Carrito ------
+CREATE PROCEDURE PA013
+    @Carrito int
+AS
+BEGIN
+       SET NOCOUNT ON;
+           Select Id, Carrito, Producto, Cantidad from Items
+           where Carrito = @Carrito
+END
+GO
+
+----- Actualizar la cantidad de un Item --------
+CREATE PROCEDURE PA014
+    @Id int,
+    @Cantidad int
+AS
+BEGIN
+      SET NOCOUNT ON;
+      UPDATE Items
+            SET   Cantidad = @Cantidad
+            WHERE Id = @Id
+END
+GO
+
+----- Eliminar un Item --------
+CREATE PROCEDURE PA015
+    @Id int
+AS
+BEGIN
+      SET NOCOUNT ON;
+        DELETE FROM Items
+          WHERE Id = @Id
+END
+GO
+
+
+
+--- Seleccionar Categorias ------
+CREATE PROCEDURE PA016
+AS
+BEGIN
+       SET NOCOUNT ON;
+           Select Id, Nombre from Categorias
+END
+GO
+
+
+
+
+--- Seleccionar Productos segun la categoria ------
+CREATE PROCEDURE PA017
+ @Categoria int
+AS
+BEGIN
+       SET NOCOUNT ON;
+           Select Id, Nombre from Categorias
+
+SELECT Categorias.Nombre as Categoria, Productos.Id as IdProducto, Marcas.Nombre AS Marca, Descripcion, Precio , Cantidad 
+  FROM CategoriasProductos, Productos, Marcas, categorias
+  WHERE CategoriasProductos.Categoria = @Categoria and Productos.Id = CategoriasProductos.Producto
+   and Categorias.Id = CategoriasProductos.Categoria and  Productos.Marca = MARCAS.Id 
+
+END
+GO
 
 
