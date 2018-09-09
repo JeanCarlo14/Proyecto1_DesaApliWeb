@@ -8,6 +8,7 @@ package Conexiones;
 import static Conexiones.Conexion.getConnection;
 import Model.Item;
 import Model.ItemCarrito;
+import Model.TarjetaNombre;
 import Model.Usuario;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -317,5 +318,53 @@ public boolean actualizarItem(int idItem, int cantidad) throws SQLException {
 		}
 		return flag;
                 }
+
+    public ArrayList<TarjetaNombre> consultarTarjetasUsuario(String idUsuario) {
+        TarjetaNombre tarjeta;
+        ArrayList<TarjetaNombre> listaIdTarjetas = new ArrayList();
+        String sql;
+        CallableStatement callableStatement = null;
+        ResultSet resultSet = null;
+        Connection connection = getConnection();
+        try {
+
+            if (connection != null) {
+                sql = "{call PA007(?)}";
+                callableStatement = connection.prepareCall(sql);
+                callableStatement.setString(1, idUsuario);
+                resultSet = callableStatement.executeQuery();
+                while (resultSet.next()) {
+                    tarjeta = new TarjetaNombre();
+                    tarjeta.setNumero(resultSet.getInt("numero"));
+                    tarjeta.setUsuario(resultSet.getString("nombre"));
+                    tarjeta.setFecha_Exp(resultSet.getDate("fecha_exp"));
+                    tarjeta.setCcv(resultSet.getInt("ccv"));
+                    
+                    listaIdTarjetas.add(tarjeta);
+                }
+            }
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            //cmdMessage.SqlErrMessage("ManagerFacturar", "consultarReceptores", sqle);
+        } finally {
+            try {
+                if (callableStatement != null) {
+                    callableStatement.close();
+                    callableStatement = null;
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                    connection = null;
+                }
+                if (resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+            } catch (SQLException e) {
+                //cmdMessage.SqlErrMessage("ManagerFacturar", "consultarReceptores", e);
+            }
+        }
+        return listaIdTarjetas;
+    }
 
 }

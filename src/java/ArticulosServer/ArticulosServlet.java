@@ -12,6 +12,8 @@ import Conexiones.Producto;
 import Model.Carrito;
 import Model.Item;
 import Model.ItemCarrito;
+import Model.Tarjeta;
+import Model.TarjetaNombre;
 import Model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -70,7 +72,10 @@ public class ArticulosServlet extends HttpServlet {
                         break;
                      case "f":
                         mensaje = actualizarItem(request, response);
-                        break;    
+                        break;
+                     case "l":
+                        mensaje = cargarListaTarjetas(request, response);
+                        break;   
                     case "getProds":
                         mensaje = getAllProds(request, response);
                         break;
@@ -344,6 +349,33 @@ private String actualizarItem(HttpServletRequest request, HttpServletResponse re
 
 		return nodoItem.toString();
 	}
+
+private String cargarListaTarjetas(HttpServletRequest request, HttpServletResponse response) {
+        /* Formato JSON */
+        response.setContentType("application/json, charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        JSONArray jsonArr = new JSONArray();
+        JSONObject nodoTarjeta;
+
+        ManagerServlet mngServlet = new ManagerServlet();
+        ArrayList<TarjetaNombre> listaTarjetas = mngServlet.consultarTarjetasUsuario(request.getParameter("idUsuario"));
+
+        for (int i = 0; i < listaTarjetas.size(); i++) {
+            nodoTarjeta = new JSONObject();
+            nodoTarjeta.put("numero", listaTarjetas.get(i).getNumero());
+            nodoTarjeta.put("usuario", listaTarjetas.get(i).getUsuario());
+            nodoTarjeta.put("fecha_exp", listaTarjetas.get(i).getFecha_Exp().toString());
+            nodoTarjeta.put("ccv", listaTarjetas.get(i).getCcv());
+            
+            jsonArr.add(nodoTarjeta);
+        }
+
+        JSONObject mainObj = new JSONObject();
+        mainObj.put("tarjetas", jsonArr);
+
+        return mainObj.toString();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

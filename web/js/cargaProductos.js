@@ -76,7 +76,7 @@ function addProds(prodList) {
         }
         var prod = prodList[key];
         prodCards = prodCards.concat(creaCardProducto(prod));
-        if ((key + 1) % 3 === 0 || key == (prodList.length-1)) {
+        if ((key + 1) % 3 === 0 || parseInt(key) === (prodList.length-1)) {
             prodCards = prodCards.concat('<div class="clear"></div></div>');
         }
     }
