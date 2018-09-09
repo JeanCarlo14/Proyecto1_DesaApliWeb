@@ -95,6 +95,11 @@ public class ArticulosServlet extends HttpServlet {
                     case "getSession":
                         mensaje = getSession(request, response);
                         break;
+                        
+                     case "logout":
+                        mensaje = setSession(request, response);
+                        break;
+                    
                     
                     default:
                         mensaje = "sin accion";
@@ -365,6 +370,8 @@ public class ArticulosServlet extends HttpServlet {
 		nodoUsuario.put("estado", false);
                 
                 HttpSession misession= (HttpSession) request.getSession(); 
+               // String auxSession  = (String) misession.getAttribute("sUser");
+              //  if(auxSession != null){
                 Usuario usuario = (Usuario) misession.getAttribute("sUser");               
 
 			nodoUsuario.put("nombre", usuario.getNombre());
@@ -375,10 +382,26 @@ public class ArticulosServlet extends HttpServlet {
                         if(usuario.getEmail() != null && usuario.getEmail().length() !=0){
                             nodoUsuario.put("estado", true);
                         }
+               // }
 			
 			return nodoUsuario.toString();
 	}
          
+         
+        private String setSession(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoUsuario = new JSONObject();
+		nodoUsuario.put("estado", false);
+                
+                HttpSession misession= (HttpSession) request.getSession(); 
+                misession.invalidate();
+                   
+                nodoUsuario.put("estado", true);
+			
+	       return nodoUsuario.toString();
+	}
          
          
          

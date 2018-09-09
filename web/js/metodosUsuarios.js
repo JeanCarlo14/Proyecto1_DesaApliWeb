@@ -5,6 +5,36 @@
  */
 
 
+
+function logout(){
+    var valores = {};    
+    valores.accion ="logout";
+    
+    console.log(valores);
+    $.ajax({
+        url: 'ArticulosServlet',
+        data: valores,
+        type: 'post',
+        dataType: 'json',
+        success: function (datos) {
+        
+            if(datos.estado){             
+                alert("Cerro Session");
+                location.reload();
+            }
+        },
+        error: function (xhr, status) {
+            console.log('Disculpe, existió un problema al logearse');
+        },
+        complete: function (xhr, status) {
+            console.log('Login exitoso');
+        }
+    });
+    
+}
+
+
+
 function getSession(){
     var valores = {};
     
@@ -20,14 +50,19 @@ function getSession(){
         
             if(datos.estado){             
                  $("#myAcou").hide();
-                 $("#mySign").hide();  
+                 $("#mySign").hide(); 
+                 $("#nameUser").show();
                  $("#nameUser").text(datos.nombre);
+                 $("#myLogout").show(); 
+
             }
             else{
                  $("#myAcou").show();
-                 $("#mySign").show();          
+                 $("#mySign").show(); 
+                 $("#nameUser").hide();
+                 $("#myLogout").hide(); 
             }
-                   
+           
         },
         error: function (xhr, status) {
             console.log('Disculpe, existió un problema al logearse');

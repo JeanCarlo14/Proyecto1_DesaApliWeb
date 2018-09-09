@@ -6,9 +6,10 @@
 	    <div class="cssmenu">
 		   <ul>
                        <li class="active"><a id="mySign" name="mySign" href="register.jsp">Sign up & Save</a></li> 
-			  <li><a  id="myAcou" name="myAcou" href="login.jsp" hidden>My Account</a></li> 
+			  <li><a  id="myAcou" name="myAcou" href="login.jsp" >My Account</a></li> 
 			 <li><a href="checkout.jsp">CheckOut</a></li> 
                          <li><p id="nameUser" name="nameUser"></p></li>
+                         <li><a  id="myLogout" name="myLogout" href="#" onclick="logout()">Logout</a></li>
 		   </ul>
 		</div>
 		<ul class="icon2 sub-icon2 profile_img">
