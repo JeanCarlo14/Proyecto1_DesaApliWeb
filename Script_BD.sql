@@ -183,15 +183,7 @@ SELECT PRODUCTOS.ID,MARCAS.Nombre AS MARCA,DESCRIPCION,PRECIO,CANTIDAD,IMAGEN FR
 END
 GO
 
---- Seleccionar Producto por id ---
-create PROCEDURE PA018
-@p_idProducto int
-AS
-BEGIN
-SELECT PRODUCTOS.ID,MARCAS.Nombre AS MARCA,DESCRIPCION,PRECIO,CANTIDAD,IMAGEN
- FROM PRODUCTOS,MARCAS WHERE Productos.Marca = MARCAS.Id  and productos.id =@p_idProducto
-END
-GO
+
 
 --- Seleccionar Usuario ---
 CREATE PROCEDURE PA002
@@ -408,5 +400,31 @@ SELECT Categorias.Nombre as Categoria, Productos.Id as IdProducto, Marcas.Nombre
 END
 GO
 
+<<<<<<< HEAD
+=======
+--- producto especifico --
+create PROCEDURE PA018
+@p_idProducto int
+AS
+BEGIN
+SELECT PRODUCTOS.ID,MARCAS.Nombre AS MARCA,DESCRIPCION,PRECIO,CANTIDAD,IMAGEN
+ FROM PRODUCTOS,MARCAS WHERE Productos.Marca = MARCAS.Id  and productos.id =@p_idProducto
+END
+GO
+ --- items del carrito ----
+create PROCEDURE PA019
+    @idCarrito int
+AS
+BEGIN
+select items.id,productos.Imagen,productos.Descripcion,productos.Precio,productos.Cantidad
+ from items,productos where items.Producto = productos.Id and items.producto =productos.id and items.carrito = @idCarrito
+END
+GO
+
+
+/* alter*/
+
+ALTER TABLE productos ADD Imagen varchar(100); 
+>>>>>>> commit
 
 

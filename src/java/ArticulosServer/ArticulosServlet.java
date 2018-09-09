@@ -9,11 +9,17 @@ import Conexiones.CompuertaMarcas;
 import Conexiones.CompuertaProductos;
 import Conexiones.ManagerServlet;
 import Conexiones.Producto;
+import Model.Carrito;
+import Model.Item;
+import Model.ItemCarrito;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +43,7 @@ public class ArticulosServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -53,7 +59,10 @@ public class ArticulosServlet extends HttpServlet {
                         mensaje = cargarProductoEspecifico(request, response);
                         break;
                     case "c":
-                        mensaje = metodo3(request, response);
+                        mensaje = agregarItem(request, response);
+                        break;
+                     case "d":
+                        mensaje = cargarListaCarrito(request, response);
                         break;
                     case "getProds":
                         mensaje = getAllProds(request, response);
@@ -202,6 +211,70 @@ public class ArticulosServlet extends HttpServlet {
 			return "{}";
 		}	*/
 	}
+        
+        
+        private String agregarItem(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		/* Formato JSON */
+		
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoItem = new JSONObject();
+		nodoItem.put("estado", false);
+
+		ManagerServlet mngServlet = new ManagerServlet();
+		Item item = new Item();
+		Carrito carrito = new Carrito();
+                Producto producto = new Producto();
+                
+                carrito.setId(Integer.parseInt(request.getParameter("idCarrito")));
+                producto.setId(Integer.parseInt(request.getParameter("idProducto")));
+                
+                item.setCarrito(carrito);
+                item.setProducto(producto);
+                item.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
+
+
+		if (mngServlet.agregarItem(item)) {
+			nodoItem.put("estado", true);
+		}
+
+		return nodoItem.toString();
+	}
+        
+        
+  private String cargarListaCarrito(HttpServletRequest request, HttpServletResponse response) {
+		/* Formato JSON */
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONArray jsonArr = new JSONArray();
+		JSONObject nodoItemCarrito = new JSONObject();
+		
+		ManagerServlet mngServlet = new ManagerServlet();
+		ArrayList<ItemCarrito> listaItemCarrito = mngServlet.consultarItemsCarrito(Integer.parseInt(request.getParameter("idCarrito")));
+
+		for (int i = 0; i < listaItemCarrito.size(); i++) {
+			nodoItemCarrito = new JSONObject();
+			nodoItemCarrito.put("id", listaItemCarrito.get(i).getId());
+			nodoItemCarrito.put("imagen",listaItemCarrito.get(i).getImagenProducto() );
+			nodoItemCarrito.put("descripcion",listaItemCarrito.get(i).getDescripcion() );
+			nodoItemCarrito.put("precio", listaItemCarrito.get(i).getPrecio());
+                        nodoItemCarrito.put("cantidad",listaItemCarrito.get(i).getCantidad() );
+                        
+			jsonArr.add(nodoItemCarrito);
+		}
+
+		JSONObject mainObj = new JSONObject();
+		//try {
+			mainObj.put("ItemsCarrito", jsonArr);
+			//mainObj.put("total", mngFacturar.getMaximo());
+			
+			return mainObj.toString();
+		/*} catch (JSONException e) {
+			e.printStackTrace();
+			return "{}";
+		}	*/
+	}
+          
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -215,7 +288,11 @@ public class ArticulosServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticulosServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -229,7 +306,11 @@ public class ArticulosServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticulosServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
