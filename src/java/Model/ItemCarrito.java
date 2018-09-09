@@ -5,23 +5,16 @@
  */
 package Model;
 
+import Conexiones.Producto;
+
 /**
  *
  * @author Ana
  */
-public class ItemCarrito {
-<<<<<<< HEAD
-    
-    private int Id;
-    private Carrito carrito;
-    private Producto producto;
-    private int Cantidad;
+public class ItemCarrito { 
     /**
      * @return the Id
      */
-=======
-
->>>>>>> commit
     public int getId() {
         return Id;
     }

@@ -212,5 +212,39 @@ public ArrayList<ItemCarrito> consultarItemsCarrito(int idCarrito) {
 		return listaItemCarrito;
 	}
 
+public boolean eliminarItem(int idItem) throws SQLException {
+    
+    
+		boolean flag = true;
+                String sql;
+                CallableStatement callableStatement = null;
+                
+                Connection connection = getConnection();
+		try {
+			connection = getConnection();
+			if (connection != null) {
+				sql = "{call PA015(?)}";
+				callableStatement = connection.prepareCall(sql);
+				callableStatement.setInt(1,idItem);
+
+				callableStatement.execute();
+			}
+		} catch (Exception e) {
+			flag = false;
+			e.printStackTrace();
+		} finally {
+                    if (callableStatement != null) {
+                        callableStatement.close();
+                        callableStatement = null;
+                    }
+                    if (connection != null && connection.isClosed()) {
+                        connection.close();
+                        connection = null;
+                    }
+		}
+		return flag;
+                }
+
+
     
 }
