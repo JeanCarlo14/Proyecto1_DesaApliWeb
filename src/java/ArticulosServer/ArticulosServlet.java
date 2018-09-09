@@ -9,11 +9,18 @@ import Conexiones.CompuertaMarcas;
 import Conexiones.CompuertaProductos;
 import Conexiones.ManagerServlet;
 import Conexiones.Producto;
+import Model.Carrito;
+import Model.Item;
+import Model.ItemCarrito;
+import Model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +44,7 @@ public class ArticulosServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -53,10 +60,23 @@ public class ArticulosServlet extends HttpServlet {
                         mensaje = cargarProductoEspecifico(request, response);
                         break;
                     case "c":
-                        mensaje = metodo3(request, response);
+                        mensaje = agregarItem(request, response);
                         break;
+                     case "d":
+                        mensaje = cargarListaCarrito(request, response);
+                        break;
+                     case "e":
+                        mensaje = eliminarItem(request, response);
+                        break;
+                     case "f":
+                        mensaje = actualizarItem(request, response);
+                        break;    
                     case "getProds":
                         mensaje = getAllProds(request, response);
+                        break;
+                        
+                     case "createUser":
+                        mensaje = createUser(request, response);
                         break;
 
                     default:
@@ -202,7 +222,128 @@ public class ArticulosServlet extends HttpServlet {
 			return "{}";
 		}	*/
 	}
+        
+        
+        private String agregarItem(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		/* Formato JSON */
+		
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoItem = new JSONObject();
+		nodoItem.put("estado", false);
 
+		ManagerServlet mngServlet = new ManagerServlet();
+		Item item = new Item();
+		Carrito carrito = new Carrito();
+                Producto producto = new Producto();
+                
+                carrito.setId(Integer.parseInt(request.getParameter("idCarrito")));
+                producto.setId(Integer.parseInt(request.getParameter("idProducto")));
+                
+                item.setCarrito(carrito);
+                item.setProducto(producto);
+                item.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
+
+
+		if (mngServlet.agregarItem(item)) {
+			nodoItem.put("estado", true);
+		}
+
+		return nodoItem.toString();
+	}
+        
+  private String cargarListaCarrito(HttpServletRequest request, HttpServletResponse response) {
+		/* Formato JSON */
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONArray jsonArr = new JSONArray();
+		JSONObject nodoItemCarrito = new JSONObject();
+		
+		ManagerServlet mngServlet = new ManagerServlet();
+		ArrayList<ItemCarrito> listaItemCarrito = mngServlet.consultarItemsCarrito(Integer.parseInt(request.getParameter("idCarrito")));
+                float subtotal = 0;
+                float total = 0;
+		for (int i = 0; i < listaItemCarrito.size(); i++) {
+			nodoItemCarrito = new JSONObject();
+			nodoItemCarrito.put("id", listaItemCarrito.get(i).getId());
+			nodoItemCarrito.put("imagen",listaItemCarrito.get(i).getImagenProducto() );
+			nodoItemCarrito.put("descripcion",listaItemCarrito.get(i).getDescripcion() );
+			nodoItemCarrito.put("precio", listaItemCarrito.get(i).getPrecio());
+                        nodoItemCarrito.put("cantidad",listaItemCarrito.get(i).getCantidad() );
+                        subtotal = listaItemCarrito.get(i).getCantidad() * listaItemCarrito.get(i).getPrecio();
+                        nodoItemCarrito.put("subtotal",subtotal);
+                        total += subtotal;
+			jsonArr.add(nodoItemCarrito);
+		}
+
+		JSONObject mainObj = new JSONObject();
+		//try {
+			mainObj.put("ItemsCarrito", jsonArr);
+                        mainObj.put("total", total);
+			//mainObj.put("total", mngFacturar.getMaximo());
+			
+			return mainObj.toString();
+		/*} catch (JSONException e) {
+			e.printStackTrace();
+			return "{}";
+		}	*/
+	}
+  
+  
+          private String createUser(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		/* Formato JSON */
+                
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoUsuario = new JSONObject();
+		nodoUsuario.put("estado", false);
+
+		ManagerServlet mngServlet = new ManagerServlet();
+                Usuario usuario = new Usuario();
+                
+                usuario.setNombre(request.getParameter("nombre"));
+                usuario.setApellido1(request.getParameter("apellido1"));
+                usuario.setApellido2(request.getParameter("apellido2"));
+                usuario.setEmail(request.getParameter("email"));
+                usuario.setPass(request.getParameter("pass"));
+                
+		if (mngServlet.createUser(usuario)) {
+			nodoUsuario.put("estado", true);
+		}
+
+		return nodoUsuario.toString();
+	}
+          
+  private String eliminarItem(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		/* Formato JSON */
+		
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoItem = new JSONObject();
+		nodoItem.put("estado", false);
+
+		ManagerServlet mngServlet = new ManagerServlet();
+		if (mngServlet.eliminarItem(Integer.parseInt(request.getParameter("idItem")))) {
+			nodoItem.put("estado", true);
+		}
+
+		return nodoItem.toString();
+	}
+private String actualizarItem(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		/* Formato JSON */
+		
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoItem = new JSONObject();
+		nodoItem.put("estado", false);
+
+		ManagerServlet mngServlet = new ManagerServlet();
+		if (mngServlet.actualizarItem(Integer.parseInt(request.getParameter("idItem")),Integer.parseInt(request.getParameter("cantidad")))) {
+			nodoItem.put("estado", true);
+		}
+
+		return nodoItem.toString();
+	}
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -215,7 +356,11 @@ public class ArticulosServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticulosServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -229,7 +374,11 @@ public class ArticulosServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticulosServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

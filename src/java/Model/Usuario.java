@@ -11,26 +11,12 @@ package Model;
  */
 public class Usuario {
     
-    private int Id;
     private String Email; 			   
     private String Pass;
     private String Nombre;
     private String Apellido1;
     private String Apellido2;
 
-    /**
-     * @return the Id
-     */
-    public int getId() {
-        return Id;
-    }
-
-    /**
-     * @param Id the Id to set
-     */
-    public void setId(int Id) {
-        this.Id = Id;
-    }
 
     /**
      * @return the Email

@@ -4,15 +4,13 @@ GO
 
 -- Insertar Usuario ---
 INSERT INTO [dbo].[Usuarios]
-           ([Id]
-           ,[Email]
+           ([Email]
            ,[Pass]
            ,[Nombre]
            ,[Apellido1]
            ,[Apellido2])
      VALUES
-           (1
-           ,'ejemplo@gmail.com'
+           ('ejemplo@gmail.com'
            ,'1234'
            ,'Juan'
            ,'Mora'
@@ -56,7 +54,7 @@ INSERT INTO [dbo].[Tarjetas]
            ,[Ccv])
      VALUES
            (456
-           ,1
+           ,'ejemplo@gmail.com'
            ,'12/11/2018'
            ,357)
 GO
@@ -68,7 +66,7 @@ INSERT INTO [dbo].[Carritos]
            ([Usuario]
            ,[Checkout])
      VALUES
-           (1
+           ('ejemplo@gmail.com'
            ,0)
 GO
 

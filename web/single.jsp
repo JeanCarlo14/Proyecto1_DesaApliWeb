@@ -90,10 +90,9 @@ function datosProducto(){
 					<div class="clear"></div>
 				</ul>
 				<div class="btn_form">
-				   <form>
-					 <input type="submit" value="buy now" title="">
-				  </form>
-				</div>
+					 
+                                <button onclick="agregarItem()">Buy Now</button> 
+				  			</div>
 				<ul class="add-to-links">
     			   <li><img src="images/wish.png" alt=""/><a href="#">Add to wishlist</a></li>
     			</ul>

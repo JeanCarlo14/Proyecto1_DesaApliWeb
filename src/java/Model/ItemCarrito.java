@@ -11,66 +11,67 @@ import Conexiones.Producto;
  *
  * @author Ana
  */
-public class ItemCarrito {
-    
-    private int Id;
-    private Carrito carrito;
-    private Producto producto;
-    private int Cantidad;
+public class ItemCarrito { 
     /**
      * @return the Id
      */
+
     public int getId() {
         return Id;
     }
 
-    /**
-     * @param Id the Id to set
-     */
     public void setId(int Id) {
         this.Id = Id;
     }
 
-    /**
-     * @return the carrito
-     */
-    public Carrito getCarrito() {
-        return carrito;
+    public String getImagenProducto() {
+        return imagenProducto;
     }
 
-    /**
-     * @param carrito the carrito to set
-     */
-    public void setCarrito(Carrito carrito) {
-        this.carrito = carrito;
+    public void setImagenProducto(String imagenProducto) {
+        this.imagenProducto = imagenProducto;
     }
 
-    /**
-     * @return the producto
-     */
-    public Producto getProducto() {
-        return producto;
+    public String getNombreProducto() {
+        return nombreProducto;
     }
 
-    /**
-     * @param producto the producto to set
-     */
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
 
-    /**
-     * @return the Cantidad
-     */
+    public String getDescripcion() {
+        return Descripcion;
+    }
+
+    public void setDescripcion(String Descripcion) {
+        this.Descripcion = Descripcion;
+    }
+
+    public float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(float precio) {
+        this.precio = precio;
+    }
+
     public int getCantidad() {
-        return Cantidad;
+        return cantidad;
     }
 
-    /**
-     * @param Cantidad the Cantidad to set
-     */
-    public void setCantidad(int Cantidad) {
-        this.Cantidad = Cantidad;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
-   
+    
+    private int Id;
+    private String imagenProducto;
+    private String nombreProducto;
+    private String Descripcion;
+    private float precio;
+    private int cantidad; // cantidad del item
+    /**
+     * @return the Id
+     */
+    
 }
