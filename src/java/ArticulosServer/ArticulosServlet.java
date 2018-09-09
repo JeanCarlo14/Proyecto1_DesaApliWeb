@@ -65,6 +65,9 @@ public class ArticulosServlet extends HttpServlet {
                      case "d":
                         mensaje = cargarListaCarrito(request, response);
                         break;
+                     case "e":
+                        mensaje = eliminarItem(request, response);
+                        break;   
                     case "getProds":
                         mensaje = getAllProds(request, response);
                         break;
@@ -304,6 +307,21 @@ public class ArticulosServlet extends HttpServlet {
 		return nodoUsuario.toString();
 	}
           
+  private String eliminarItem(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		/* Formato JSON */
+		
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoItem = new JSONObject();
+		nodoItem.put("estado", false);
+
+		ManagerServlet mngServlet = new ManagerServlet();
+		if (mngServlet.eliminarItem(Integer.parseInt(request.getParameter("idItem")))) {
+			nodoItem.put("estado", true);
+		}
+
+		return nodoItem.toString();
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -11,6 +11,7 @@ import Conexiones.Producto;
  *
  * @author Ana
  */
+<<<<<<< HEAD
 public class ItemCarrito {
 
     private int Id;
@@ -21,6 +22,12 @@ public class ItemCarrito {
      * @return the Id
      */
 
+=======
+public class ItemCarrito { 
+    /**
+     * @return the Id
+     */
+>>>>>>> origin/master
     public int getId() {
         return Id;
     }

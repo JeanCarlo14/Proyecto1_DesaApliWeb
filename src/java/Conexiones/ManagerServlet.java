@@ -213,9 +213,14 @@ public ArrayList<ItemCarrito> consultarItemsCarrito(int idCarrito) {
 		return listaItemCarrito;
 	}
 
+<<<<<<< HEAD
 public boolean createUser(Usuario user) throws SQLException {
     System.out.println(user.getNombre());
     System.out.println(user.getEmail());
+=======
+public boolean eliminarItem(int idItem) throws SQLException {
+    
+>>>>>>> origin/master
     
 		boolean flag = true;
                 String sql;
@@ -225,6 +230,7 @@ public boolean createUser(Usuario user) throws SQLException {
 		try {
 			connection = getConnection();
 			if (connection != null) {
+<<<<<<< HEAD
 				sql = "{call PA003(?,?,?,?,?)}";
 				callableStatement = connection.prepareCall(sql);
 				callableStatement.setString(1,user.getNombre());
@@ -233,6 +239,12 @@ public boolean createUser(Usuario user) throws SQLException {
                                 callableStatement.setString(4,user.getEmail());
                                 callableStatement.setString(5,user.getPass());                                
                                 
+=======
+				sql = "{call PA015(?)}";
+				callableStatement = connection.prepareCall(sql);
+				callableStatement.setInt(1,idItem);
+
+>>>>>>> origin/master
 				callableStatement.execute();
 			}
 		} catch (Exception e) {
@@ -251,5 +263,9 @@ public boolean createUser(Usuario user) throws SQLException {
 		return flag;
                 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
     
 }
