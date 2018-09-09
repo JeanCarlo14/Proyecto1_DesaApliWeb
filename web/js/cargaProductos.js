@@ -3,7 +3,7 @@ $(document).ready(function () {
 });
 
 function creaCardProducto(prod) {
-    var cardHtml = '   <div class="col_1_of_3 span_1_of_3"><a href="single.jsp">' +
+    var cardHtml = '   <div class="col_1_of_3 span_1_of_3"><a href="single.jsp?idProducto='+prod.id+'">' +
             '<div class="view view-fifth">' +
             '<div class="top_box">' +
             '<h3 class="m_1">' + prod.descripcion + '</h3>' +
@@ -62,7 +62,7 @@ function listaProductos() {
             console.log('Disculpe, existió un problema al cargar los productos');
         },
         complete: function (xhr, status) {
-            console.log('Ptroductos cargados exitosamente');
+            console.log('Productos cargados exitosamente');
         }
     });
 }

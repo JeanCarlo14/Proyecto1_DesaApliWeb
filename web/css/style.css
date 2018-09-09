@@ -1531,7 +1531,8 @@ p.m_desc{
   	font-size:0.9em;
 }
 .info:hover {
-   background:#FFAF02;
+    background: #20b8ff;
+   /*background:#FFAF02;*/
 }
 .view-fifth1 img {
    -webkit-transition: all 0.3s ease-in-out;

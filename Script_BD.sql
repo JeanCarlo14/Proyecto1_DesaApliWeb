@@ -382,8 +382,6 @@ END
 GO
 
 
-
-
 --- Seleccionar Productos segun la categoria ------
 CREATE PROCEDURE PA017
  @Categoria int
