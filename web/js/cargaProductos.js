@@ -66,9 +66,8 @@ function pruebas() {
         // el tipo de información que se espera de respuesta
         dataType: 'json',
         success: function (datos) {
-            if (datos.estado) {
-                console.log(datos.estado);
-            }
+   
+            listaProductos(datos.productos);
         },
         error: function (xhr, status) {
             alert('Disculpe, existió un problema');
@@ -77,6 +76,12 @@ function pruebas() {
             alert('Petición realizada');
         }
     });
+}
+
+function listaProductos (array){
+  $.each(array, function( index, value ) {
+  creaCardProducto(array[index]);
+});
 }
 
 function productos() {
@@ -108,6 +113,7 @@ function productos() {
 }
 
 function addProds(prodList) {
+    
     var prodCards = '<div class="content group">';
     for (var key in prodList) {
         if (key % 3 === 0) {
