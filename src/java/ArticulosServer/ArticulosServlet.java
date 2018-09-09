@@ -5,15 +5,21 @@
  */
 package ArticulosServer;
 
+import Conexiones.CompuertaMarcas;
+import Conexiones.CompuertaProductos;
+import Conexiones.ManagerServlet;
+import Conexiones.Producto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-
 
 /**
  *
@@ -35,56 +41,167 @@ public class ArticulosServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String mensaje ="";
-            if(request.getParameter("accion") != null && request.getParameter("accion") != ""){
+            String mensaje = "";
+            if (request.getParameter("accion") != null && request.getParameter("accion") != "") {
                 String accion = request.getParameter("accion");
-                
-      switch(accion) {
-         case "a" :
-            mensaje = metodo1(request,response); 
-            break;
-         case "b" :
-            mensaje = metodo2(request,response); 
-            break;
-         case "c" :
-            mensaje = metodo3(request,response); 
-            break;
-         
-         default :
-            mensaje = "sin accion"; 
-      }
+
+                switch (accion) {
+                    case "a":
+                        mensaje = cargarListaProductos(request, response);
+                        break;
+                    case "b":
+                        mensaje = cargarProductoEspecifico(request, response);
+                        break;
+                    case "c":
+                        mensaje = metodo3(request, response);
+                        break;
+                    case "getProds":
+                        mensaje = getAllProds(request, response);
+                        break;
+
+                    default:
+                        mensaje = "sin accion";
+                }
+            } else {
+                mensaje = "Sin accion";
             }
-            else{
-                mensaje = "Sin accion"; 
-            }
-              
+
             out.println(mensaje);
 
         }
     }
-    
-    public String metodo1(HttpServletRequest request, HttpServletResponse response){
-        
+
+    public String metodo1(HttpServletRequest request, HttpServletResponse response) {
+
+        //------ Prueba ------
+        CompuertaProductos cp = new CompuertaProductos();
+        Consumer action = new Consumer() {
+            @Override
+            public void accept(Object t) {
+                if (t.getClass() == Producto.class) {
+                    System.out.println(((Producto) t).getId() + "  " + ((Producto) t).getMarca() + "  " + ((Producto) t).getDescripcion() + "  " + ((Producto) t).getPrecio() + "  " + ((Producto) t).getCantidad());
+                }
+            }
+        };
+        cp.obtenerTodos().forEach(action);
+        action.accept(cp.obtenerPorID(2));
+        cp.obtenerPorMarca(5).forEach(action);
+        cp.obtenerPorNombreMarca("NIKE").forEach(action);
+        cp.obtenerPorDescripcion("3").forEach(action);
+        //-------
+
         JSONObject nodoData = new JSONObject();
         nodoData.put("respuesta", "metodo1");
         nodoData.put("estado", true);
-    return nodoData.toString();
+        return nodoData.toString();
     }
-    
-    public String metodo2(HttpServletRequest request, HttpServletResponse response){
-    
+
+    public String metodo2(HttpServletRequest request, HttpServletResponse response) {
+
         JSONObject nodoData = new JSONObject();
         nodoData.put("respuesta", "metodo2");
         nodoData.put("estado", true);
-    return nodoData.toString();
+        return nodoData.toString();
     }
-    public String metodo3(HttpServletRequest request, HttpServletResponse response){
-    
+
+    public String metodo3(HttpServletRequest request, HttpServletResponse response) {
+
         JSONObject nodoData = new JSONObject();
         nodoData.put("respuesta", "metodo3");
         nodoData.put("estado", true);
-    return nodoData.toString();
+        return nodoData.toString();
     }
+
+    public String getAllProds(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject nodoData = new JSONObject();
+        CompuertaProductos cp = new CompuertaProductos();
+
+        JSONArray ja = new JSONArray();
+        ArrayList<Producto> prods = cp.obtenerTodos();
+
+        if (prods != null) {
+            for (Producto prod : prods) {
+                JSONObject jp = new JSONObject();
+                jp.put("id",prod.getId());
+                jp.put("marca",prod.getMarca());
+                jp.put("descripcion",prod.getDescripcion());
+                jp.put("precio",prod.getPrecio());
+                jp.put("cantidad",prod.getCantidad());
+                ja.add(jp);
+            }
+        }
+
+        nodoData.put("respuesta", ja);
+        nodoData.put("estado", true);
+        return nodoData.toString();
+    }
+    
+    
+    private String cargarListaProductos(HttpServletRequest request, HttpServletResponse response) {
+		/* Formato JSON */
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONArray jsonArr = new JSONArray();
+		JSONObject nodoProducto = new JSONObject();
+		
+		ManagerServlet mngServlet = new ManagerServlet();
+		ArrayList<Producto> listaProductos = mngServlet.consultarProductos();
+
+		for (int i = 0; i < listaProductos.size(); i++) {
+			nodoProducto = new JSONObject();
+			nodoProducto.put("id", listaProductos.get(i).getId());
+			nodoProducto.put("marca",listaProductos.get(i).getMarca() );
+			nodoProducto.put("descripcion",listaProductos.get(i).getDescripcion() );
+			nodoProducto.put("precio", listaProductos.get(i).getPrecio());
+                        nodoProducto.put("cantidad",listaProductos.get(i).getCantidad() );
+                        nodoProducto.put("imagen",listaProductos.get(i).getImagen() );
+			jsonArr.add(nodoProducto);
+		}
+
+		JSONObject mainObj = new JSONObject();
+		//try {
+			mainObj.put("productos", jsonArr);
+			//mainObj.put("total", mngFacturar.getMaximo());
+			
+			return mainObj.toString();
+		/*} catch (JSONException e) {
+			e.printStackTrace();
+			return "{}";
+		}	*/
+	}
+    
+    
+        private String cargarProductoEspecifico(HttpServletRequest request, HttpServletResponse response) {
+		/* Formato JSON */
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONArray jsonArr = new JSONArray();
+		JSONObject nodoProducto = new JSONObject();
+		
+		ManagerServlet mngServlet = new ManagerServlet();
+		Producto producto = mngServlet.consultarProductoEspecifico(Integer.parseInt(request.getParameter("idProducto")));
+
+			nodoProducto = new JSONObject();
+			nodoProducto.put("id", producto.getId());
+			nodoProducto.put("marca",producto.getMarca() );
+			nodoProducto.put("descripcion",producto.getDescripcion() );
+			nodoProducto.put("precio", producto.getPrecio());
+                        nodoProducto.put("cantidad",producto.getCantidad() );
+                        nodoProducto.put("imagen",producto.getImagen() );
+			jsonArr.add(nodoProducto);
+		
+
+		JSONObject mainObj = new JSONObject();
+		//try {
+			mainObj.put("producto", jsonArr);
+			//mainObj.put("total", mngFacturar.getMaximo());
+			
+			return nodoProducto.toString();
+		/*} catch (JSONException e) {
+			e.printStackTrace();
+			return "{}";
+		}	*/
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -126,3 +243,4 @@ public class ArticulosServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+

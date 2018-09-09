@@ -148,8 +148,7 @@
 					  </div>
 					  <div class="clear"></div>			
 				   </div>
-				  <div class="content-bottom">
-				   <div class="box1" id="box1">
+				  <div class="content-bottom" id="prod-list">
 				   
 			    </div>
 			  </div>

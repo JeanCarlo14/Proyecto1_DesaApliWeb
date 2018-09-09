@@ -5,9 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
+    
 <title>OPticas</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -16,6 +18,15 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/single.js"></script>
+<script language="javascript"> 
+
+function datosProducto(){ 
+  <%int idProducto= Integer.parseInt(request.getParameter("idProducto"));%>
+   var idProducto="<%=idProducto%>"; 
+   cargarProducto(idProducto);
+} 
+
+</script> 
 
 <!-- start menu -->     
 <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
@@ -29,6 +40,9 @@
 				$('.scroll-pane').jScrollPane();
 			});
 		</script>
+                
+       
+
 <!----details-product-slider--->
 				<!-- Include the Etalage files -->
 					<link rel="stylesheet" href="css/etalage.css">
@@ -41,9 +55,10 @@
 <script type="text/javascript" src="js/easing.js"></script>
 					
 </head>
-<body>
+<body onload="datosProducto()">
   <%@ include file="menu.jsp" %> 
        <div class="single">
+           <input id="idProducto" name="idProducto" type="hidden" value="<%=idProducto%>">
          <div class="wrap">
      	   <div class="cont span_2_of_3">
 			  <div class="labout span_1_of_a1">
@@ -51,8 +66,7 @@
 				     <ul id="etalage">
 							<li>
 								<a href="optionallink.html">
-									<img class="etalage_thumb_image" src="images/t1.jpg" />
-									<img class="etalage_source_image" src="images/t2.jpg" />
+									<img class="etalage_source_image" src="" id="imagenProducto" />
 								</a>
 							</li>
 							
@@ -62,11 +76,10 @@
 			<!-- end product_slider -->
 			</div>
 			<div class="cont1 span_2_of_a1">
-				<h3 class="m_3">Lorem ipsum dolor sit amet</h3>
+				<h3 class="m_3" id="nombreProducto"></h3>
 				
 				<div class="price_single">
-							  <span class="reducedfrom">$66.00</span>
-							  <span class="actual">$12.00</span><a href="#">click for offer</a>
+							  <span class="actual" id="precioProducto"></span><a href="#">click for offer</a>
 							</div>
 				<ul class="options">
 					<h4 class="m_9">Select a Size</h4>
