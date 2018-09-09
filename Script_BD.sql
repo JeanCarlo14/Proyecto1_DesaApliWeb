@@ -79,11 +79,12 @@ GO
 
 ---------- Tabla 5 Productos -----------
 CREATE TABLE [Productos](
-		[Id]		            [int]             NOT NULL,
-		[Marca] 		    	  [int]             NOT NULL,
-		[Descripcion]			  [nvarchar](max)   NOT NULL,
+	[Id]		        [int]             NOT NULL,
+	[Marca] 		    [int]             NOT NULL,
+    [Descripcion]	    [nvarchar](max)   NOT NULL,
     [Precio]            [decimal](25,6)   NOT NULL,
-    [Cantidad]          [int]             NOT NULL
+    [Cantidad]          [int]             NOT NULL,
+	[Imagen] 			nvarchar(100)
 
   CONSTRAINT [PK_Productos] PRIMARY KEY CLUSTERED 
   (    [Id] ASC
@@ -407,8 +408,5 @@ SELECT Categorias.Nombre as Categoria, Productos.Id as IdProducto, Marcas.Nombre
 END
 GO
 
-/* alter*/
-
-ALTER TABLE productos ADD Imagen varchar(100); 
 
 

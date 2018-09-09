@@ -1,12 +1,12 @@
   <div class="header-top">
 	 <div class="wrap"> 
 		<div class="logo">
-			<a href="index.jsp"><img src="images/logo.png" alt=""/></a>
+			<a href="./"><img src="images/logo.png" alt=""/></a>
 	    </div>
 	    <div class="cssmenu">
 		   <ul>
-			 <li class="active"><a href="register.html">Sign up & Save</a></li> 
-			  <li><a href="login.html">My Account</a></li> 
+			 <li class="active"><a href="register.jsp">Sign up & Save</a></li> 
+			  <li><a href="login.jsp">My Account</a></li> 
 			 <li><a href="checkout.jsp">CheckOut</a></li> 
 		   </ul>
 		</div>
@@ -25,7 +25,7 @@
    	<div class="wrap">
    		<!-- start header menu -->
 		<ul class="megamenu skyblue">
-		    <li><a class="color1" href="#">Home</a></li>
+		    <li><a class="color1" href="./">Home</a></li>
 			</ul>
 		   <div class="clear"></div>
      	</div>
