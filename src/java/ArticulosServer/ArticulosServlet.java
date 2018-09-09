@@ -50,7 +50,7 @@ public class ArticulosServlet extends HttpServlet {
                         mensaje = cargarListaProductos(request, response);
                         break;
                     case "b":
-                        mensaje = metodo2(request, response);
+                        mensaje = cargarProductoEspecifico(request, response);
                         break;
                     case "c":
                         mensaje = metodo3(request, response);
@@ -169,6 +169,39 @@ public class ArticulosServlet extends HttpServlet {
 			return "{}";
 		}	*/
 	}
+    
+    
+        private String cargarProductoEspecifico(HttpServletRequest request, HttpServletResponse response) {
+		/* Formato JSON */
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONArray jsonArr = new JSONArray();
+		JSONObject nodoProducto = new JSONObject();
+		
+		ManagerServlet mngServlet = new ManagerServlet();
+		Producto producto = mngServlet.consultarProductoEspecifico(Integer.parseInt(request.getParameter("idProducto")));
+
+			nodoProducto = new JSONObject();
+			nodoProducto.put("id", producto.getId());
+			nodoProducto.put("marca",producto.getMarca() );
+			nodoProducto.put("descripcion",producto.getDescripcion() );
+			nodoProducto.put("precio", producto.getPrecio());
+                        nodoProducto.put("cantidad",producto.getCantidad() );
+                        nodoProducto.put("imagen",producto.getImagen() );
+			jsonArr.add(nodoProducto);
+		
+
+		JSONObject mainObj = new JSONObject();
+		//try {
+			mainObj.put("producto", jsonArr);
+			//mainObj.put("total", mngFacturar.getMaximo());
+			
+			return nodoProducto.toString();
+		/*} catch (JSONException e) {
+			e.printStackTrace();
+			return "{}";
+		}	*/
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -210,3 +243,4 @@ public class ArticulosServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+

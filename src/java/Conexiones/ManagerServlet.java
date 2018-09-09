@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class ManagerServlet {
     
-	public ArrayList<Producto> consultarProductos() {
+public ArrayList<Producto> consultarProductos() {
 		Producto producto = new Producto();
 		ArrayList<Producto> listaProductos = new ArrayList<Producto>();
                // Conexion connection = new Conexion();
@@ -68,6 +68,57 @@ public class ManagerServlet {
 			}
 		}
 		return listaProductos;
+	}
+
+
+public Producto consultarProductoEspecifico(int id) {
+		Producto producto = new Producto();
+		String sql;
+                CallableStatement callableStatement = null;
+                ResultSet resultSet = null;
+                Connection connection = getConnection();
+		try {
+                    
+			if (connection != null) {
+				sql = "{call PA018(?)}";
+				callableStatement = connection.prepareCall(sql);
+                                callableStatement.setInt(1, id);
+				resultSet = callableStatement.executeQuery();
+                              //  System.out.print(resultSet.next());
+				while (resultSet.next()) {
+                                    //System.out.println(resultSet.next());
+					producto = new Producto();
+                                        producto.setId(resultSet.getInt("id"));
+                                        producto.setMarca(resultSet.getString("marca"));
+                                        producto.setDescripcion(resultSet.getString("DESCRIPCION"));
+                                        producto.setPrecio(resultSet.getInt("PRECIO"));
+                                        producto.setCantidad(resultSet.getInt("CANTIDAD"));
+                                        producto.setImagen(resultSet.getString("IMAGEN"));
+
+				}
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			//cmdMessage.SqlErrMessage("ManagerFacturar", "consultarReceptores", sqle);
+		} finally {
+			try {
+				if (callableStatement != null) {
+					callableStatement.close();
+					callableStatement = null;
+				}
+				if (connection != null && !connection.isClosed()) {
+					connection.close();
+					connection = null;
+				}
+				if (resultSet != null) {
+					resultSet.close();
+					resultSet = null;
+				}
+			} catch (SQLException e) {
+				//cmdMessage.SqlErrMessage("ManagerFacturar", "consultarReceptores", e);
+			}
+		}
+		return producto;
 	}
 
     

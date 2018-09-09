@@ -56,7 +56,8 @@
 				
 				
 				$().UItoTop({ easingType: 'easeOutQuart' });
-        });
+      
+ });
 
 
 $(window).load(function() {
@@ -103,4 +104,37 @@ $(window).load(function() {
 		    });
 		    
 		});
+                
+                
+ /* metodos nuevos*/     
+ function cargarProducto(id) {
+    console.log("single");
+    var valores = {};
+    valores.accion ="b";
+    valores.idProducto = id;
+    console.log(valores);
+    $.ajax({
+        url: 'ArticulosServlet',
+        data: valores,
+        type: 'post',
+        dataType: 'json',
+        success: function (datos) {
+            //addProds(datos.producto);
+            console.log(datos);
+            $("#nombreProducto").text(datos.descripcion);
+            $("#precioProducto").text(datos.precio);
+            $(".etalage_thumb_image").attr("src","images/"+datos.imagen);
+            $(".etalage_source_image").attr("src","images/"+datos.imagen);
+            
+        },
+        error: function (xhr, status) {
+            console.log('Disculpe, existió un problema al cargar los productos');
+        },
+        complete: function (xhr, status) {
+            console.log('Ptroductos cargados exitosamente');
+        }
+    });
+}
+
+
 
