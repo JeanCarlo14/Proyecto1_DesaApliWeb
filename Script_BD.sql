@@ -8,15 +8,13 @@ GO
 
 ---------- Tabla 1 Usuarios -----------
 CREATE TABLE [Usuarios](
-		[Id]		          [int]           NOT NULL,
 		[Email] 			    [nvarchar](255) NOT NULL,
 		[Pass]				    [nvarchar](16)  NOT NULL,
 		[Nombre]			    [nvarchar](255) NOT NULL,
 		[Apellido1]				[nvarchar](255) NOT NULL,
-    [Apellido2]				[nvarchar](255) NOT NULL
-
+        [Apellido2]				[nvarchar](255) NOT NULL
   CONSTRAINT [PK_Usuarios] PRIMARY KEY CLUSTERED 
-  (    [Id] ASC
+  (    [Email] ASC
   )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF)
 )
 GO
@@ -24,7 +22,7 @@ GO
 ---------- Tabla 2 Tarjetas -----------
 CREATE TABLE [Tarjetas](
 		[Numero]		      [int]           NOT NULL,
-		[Usuario] 			  [int]           NOT NULL,
+		[Usuario] 			  [nvarchar](255) NOT NULL,
 		[Fecha_Exp]				[date]          NOT NULL,
 		[Ccv]			        [int]           NOT NULL
 
@@ -36,7 +34,7 @@ GO
 
 ------ FOREIGN KEY ---------
 ALTER TABLE [Tarjetas]  WITH CHECK ADD  CONSTRAINT [FK1_Tarjetas] FOREIGN KEY([Usuario])
-REFERENCES [Usuarios] ([Id])
+REFERENCES [Usuarios] ([Email])
 GO
 
 ALTER TABLE [Tarjetas] CHECK CONSTRAINT [FK1_Tarjetas]
@@ -45,7 +43,7 @@ GO
 ---------- Tabla 3 Carritos -----------
 CREATE TABLE [Carritos](
 		[Id]		            int IDENTITY(1,1)  NOT NULL,
-		[Usuario] 			    [int]           NOT NULL,
+		[Usuario] 			    [nvarchar](255) NOT NULL,
 		[Checkout]				[bit]          NOT NULL,
 
   CONSTRAINT [PK_Carrito] PRIMARY KEY CLUSTERED 
@@ -56,7 +54,7 @@ GO
 
 ------ FOREIGN KEY ---------
 ALTER TABLE [Carritos]  WITH CHECK ADD  CONSTRAINT [FK1_Carrito] FOREIGN KEY([Usuario])
-REFERENCES [Usuarios] ([Id])
+REFERENCES [Usuarios] ([Email])
 GO
 
 ALTER TABLE [Carritos] CHECK CONSTRAINT [FK1_Carrito]
@@ -187,16 +185,15 @@ GO
 
 --- Seleccionar Usuario ---
 CREATE PROCEDURE PA002
-  @Id int
+  @Email NVARCHAR(255)
   AS
   BEGIN
-    SELECT Id, Nombre, Apellido1, Apellido2, Email FROM Usuarios WHERE Id= @Id
+    SELECT Nombre, Apellido1, Apellido2, Email FROM Usuarios WHERE Email= @Email
   END
 GO
 
 -- Crear Usuario --
 CREATE PROCEDURE PA003
-    @Id int, 
     @Nombre NVARCHAR(255),
     @Apellido1 NVARCHAR(255),
     @Apellido2 NVARCHAR(255),
@@ -205,14 +202,13 @@ CREATE PROCEDURE PA003
 AS
 BEGIN
       SET NOCOUNT ON;
-            INSERT INTO Usuarios(Id, Nombre, Apellido1, Apellido2, Email, Pass)
-            VALUES (@Id, @Nombre, @Apellido1, @Apellido2, @Email, @Pass);
+            INSERT INTO Usuarios(Nombre, Apellido1, Apellido2, Email, Pass)
+            VALUES (@Nombre, @Apellido1, @Apellido2, @Email, @Pass);
 END
 GO
 
 -- Actualizar Usuario --
 CREATE PROCEDURE PA004
-    @Id int, 
     @Nombre NVARCHAR(255),
     @Apellido1 NVARCHAR(255),
     @Apellido2 NVARCHAR(255),
@@ -222,15 +218,15 @@ BEGIN
       SET NOCOUNT ON;
         UPDATE Usuarios
             SET   Nombre = @Nombre,
-            Apellido1 = @Apellido1,  Apellido2 = @Apellido2, Email = @Email
-            WHERE Id = @Id 
+            Apellido1 = @Apellido1,  Apellido2 = @Apellido2
+            WHERE Email = @Email 
 END
 GO
 
 -- Insertar Tarjeta ---
 CREATE PROCEDURE PA005
     @Numero int, 
-    @Usuario int,
+    @Usuario NVARCHAR(255),
     @Fecha_Exp date,
     @Ccv int
 AS
@@ -248,25 +244,25 @@ AS
 BEGIN
       SET NOCOUNT ON;
            Select Numero, Usuarios.Nombre, Fecha_Exp, Ccv from Tarjetas, Usuarios
-           where Numero = @Numero and Tarjetas.Usuario = Usuarios.Id 
+           where Numero = @Numero and Tarjetas.Usuario = Usuarios.Email 
 END
 GO
 
 -- Seleccionar Tarjeta Por Usuario Tarjeta ---
 CREATE PROCEDURE PA007
-    @Usuario int
+    @Usuario NVARCHAR(255)
 AS
 BEGIN
       SET NOCOUNT ON;
            Select Numero, Usuarios.Nombre, Fecha_Exp, Ccv from Tarjetas, Usuarios
-           where Usuario = @Usuario and Tarjetas.Usuario = Usuarios.Id 
+           where Usuario = @Usuario and Tarjetas.Usuario = Usuarios.Email 
 END
 GO
 
 
 ----- Crear Carrito --------
 CREATE PROCEDURE PA008
-    @Usuario int,
+    @Usuario NVARCHAR(255),
     @Checkout bit
 AS
 BEGIN
@@ -292,7 +288,7 @@ GO
 
 -- Seleccionar Carrito por Usuario y Checkout = 0----
 CREATE PROCEDURE PA010
-    @Usuario int
+    @Usuario NVARCHAR(255)
 AS
 BEGIN
       SET NOCOUNT ON;
