@@ -394,10 +394,6 @@ SELECT Categorias.Nombre as Categoria, Productos.Id as IdProducto, Marcas.Nombre
 END
 GO
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 --- producto especifico --
 create PROCEDURE PA018
 @p_idProducto int
@@ -412,18 +408,10 @@ create PROCEDURE PA019
     @idCarrito int
 AS
 BEGIN
-select items.id,productos.Imagen,productos.Descripcion,productos.Precio,productos.Cantidad
+select items.id,productos.Imagen,productos.Descripcion,productos.Precio,items.Cantidad
  from items,productos where items.Producto = productos.Id and items.producto =productos.id and items.carrito = @idCarrito
 END
 GO
 
-
-<<<<<<< HEAD
-=======
-/* alter*/
-
-ALTER TABLE productos ADD Imagen varchar(100); 
-
->>>>>>> origin/master
 
 
