@@ -11,23 +11,11 @@ import Conexiones.Producto;
  *
  * @author Ana
  */
-<<<<<<< HEAD
-public class ItemCarrito {
-
-    private int Id;
-    private Carrito carrito;
-    private Producto producto;
-    private int Cantidad;
-    /**
-     * @return the Id
-     */
-
-=======
 public class ItemCarrito { 
     /**
      * @return the Id
      */
->>>>>>> origin/master
+
     public int getId() {
         return Id;
     }
@@ -76,6 +64,7 @@ public class ItemCarrito {
         this.cantidad = cantidad;
     }
     
+    private int Id;
     private String imagenProducto;
     private String nombreProducto;
     private String Descripcion;

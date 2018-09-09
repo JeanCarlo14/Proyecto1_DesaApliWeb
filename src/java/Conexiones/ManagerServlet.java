@@ -213,15 +213,8 @@ public ArrayList<ItemCarrito> consultarItemsCarrito(int idCarrito) {
 		return listaItemCarrito;
 	}
 
-<<<<<<< HEAD
-public boolean createUser(Usuario user) throws SQLException {
-    System.out.println(user.getNombre());
-    System.out.println(user.getEmail());
-=======
+
 public boolean eliminarItem(int idItem) throws SQLException {
-    
->>>>>>> origin/master
-    
 		boolean flag = true;
                 String sql;
                 CallableStatement callableStatement = null;
@@ -230,21 +223,11 @@ public boolean eliminarItem(int idItem) throws SQLException {
 		try {
 			connection = getConnection();
 			if (connection != null) {
-<<<<<<< HEAD
-				sql = "{call PA003(?,?,?,?,?)}";
-				callableStatement = connection.prepareCall(sql);
-				callableStatement.setString(1,user.getNombre());
-				callableStatement.setString(2,user.getApellido1());
-				callableStatement.setString(3,user.getApellido2());
-                                callableStatement.setString(4,user.getEmail());
-                                callableStatement.setString(5,user.getPass());                                
-                                
-=======
 				sql = "{call PA015(?)}";
 				callableStatement = connection.prepareCall(sql);
 				callableStatement.setInt(1,idItem);
 
->>>>>>> origin/master
+
 				callableStatement.execute();
 			}
 		} catch (Exception e) {
@@ -263,12 +246,45 @@ public boolean eliminarItem(int idItem) throws SQLException {
 		return flag;
                 }
 
-<<<<<<< HEAD
-=======
 
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
+ public boolean createUser(Usuario user) throws SQLException {
+    System.out.println(user.getNombre());
+    System.out.println(user.getEmail());
+        boolean flag = true;
+                String sql;
+                CallableStatement callableStatement = null;
+                
+                Connection connection = getConnection();
+		try {
+			connection = getConnection();
+			if (connection != null) {
+				sql = "{call PA003(?,?,?,?,?)}";
+				callableStatement = connection.prepareCall(sql);
+				callableStatement.setString(1,user.getNombre());
+				callableStatement.setString(2,user.getApellido1());
+				callableStatement.setString(3,user.getApellido2());
+                                callableStatement.setString(4,user.getEmail());
+                                callableStatement.setString(5,user.getPass()); 
+                                callableStatement.execute();
+			}
+		} catch (Exception e) {
+			flag = false;
+			e.printStackTrace();
+		} finally {
+                    if (callableStatement != null) {
+                        callableStatement.close();
+                        callableStatement = null;
+                    }
+                    if (connection != null && connection.isClosed()) {
+                        connection.close();
+                        connection = null;
+                    }
+		}
+		return flag;
+                }
+                                
+
+
 public boolean actualizarItem(int idItem, int cantidad) throws SQLException {
     
     
@@ -302,7 +318,4 @@ public boolean actualizarItem(int idItem, int cantidad) throws SQLException {
 		return flag;
                 }
 
-
->>>>>>> origin/master
-    
 }
