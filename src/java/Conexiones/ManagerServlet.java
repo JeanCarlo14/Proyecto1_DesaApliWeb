@@ -8,6 +8,7 @@ package Conexiones;
 import static Conexiones.Conexion.getConnection;
 import Model.Item;
 import Model.ItemCarrito;
+import Model.Usuario;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -211,6 +212,44 @@ public ArrayList<ItemCarrito> consultarItemsCarrito(int idCarrito) {
 		}
 		return listaItemCarrito;
 	}
+
+public boolean createUser(Usuario user) throws SQLException {
+    System.out.println(user.getNombre());
+    System.out.println(user.getEmail());
+    
+		boolean flag = true;
+                String sql;
+                CallableStatement callableStatement = null;
+                
+                Connection connection = getConnection();
+		try {
+			connection = getConnection();
+			if (connection != null) {
+				sql = "{call PA003(?,?,?,?,?)}";
+				callableStatement = connection.prepareCall(sql);
+				callableStatement.setString(1,user.getNombre());
+				callableStatement.setString(2,user.getApellido1());
+				callableStatement.setString(3,user.getApellido2());
+                                callableStatement.setString(4,user.getEmail());
+                                callableStatement.setString(5,user.getPass());                                
+                                
+				callableStatement.execute();
+			}
+		} catch (Exception e) {
+			flag = false;
+			e.printStackTrace();
+		} finally {
+                    if (callableStatement != null) {
+                        callableStatement.close();
+                        callableStatement = null;
+                    }
+                    if (connection != null && connection.isClosed()) {
+                        connection.close();
+                        connection = null;
+                    }
+		}
+		return flag;
+                }
 
     
 }

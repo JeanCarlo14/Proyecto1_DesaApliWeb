@@ -12,6 +12,7 @@ import Conexiones.Producto;
 import Model.Carrito;
 import Model.Item;
 import Model.ItemCarrito;
+import Model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -66,6 +67,10 @@ public class ArticulosServlet extends HttpServlet {
                         break;
                     case "getProds":
                         mensaje = getAllProds(request, response);
+                        break;
+                        
+                     case "createUser":
+                        mensaje = createUser(request, response);
                         break;
 
                     default:
@@ -241,7 +246,6 @@ public class ArticulosServlet extends HttpServlet {
 		return nodoItem.toString();
 	}
         
-        
   private String cargarListaCarrito(HttpServletRequest request, HttpServletResponse response) {
 		/* Formato JSON */
 		response.setContentType("application/json, charset=UTF-8");
@@ -273,6 +277,31 @@ public class ArticulosServlet extends HttpServlet {
 			e.printStackTrace();
 			return "{}";
 		}	*/
+	}
+  
+  
+          private String createUser(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		/* Formato JSON */
+                
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoUsuario = new JSONObject();
+		nodoUsuario.put("estado", false);
+
+		ManagerServlet mngServlet = new ManagerServlet();
+                Usuario usuario = new Usuario();
+                
+                usuario.setNombre(request.getParameter("nombre"));
+                usuario.setApellido1(request.getParameter("apellido1"));
+                usuario.setApellido2(request.getParameter("apellido2"));
+                usuario.setEmail(request.getParameter("email"));
+                usuario.setPass(request.getParameter("pass"));
+                
+		if (mngServlet.createUser(usuario)) {
+			nodoUsuario.put("estado", true);
+		}
+
+		return nodoUsuario.toString();
 	}
           
 

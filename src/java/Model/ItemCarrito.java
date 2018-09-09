@@ -5,13 +5,14 @@
  */
 package Model;
 
+import Conexiones.Producto;
+
 /**
  *
  * @author Ana
  */
 public class ItemCarrito {
-<<<<<<< HEAD
-    
+
     private int Id;
     private Carrito carrito;
     private Producto producto;
@@ -19,9 +20,7 @@ public class ItemCarrito {
     /**
      * @return the Id
      */
-=======
 
->>>>>>> commit
     public int getId() {
         return Id;
     }
@@ -70,7 +69,6 @@ public class ItemCarrito {
         this.cantidad = cantidad;
     }
     
-    private int Id;
     private String imagenProducto;
     private String nombreProducto;
     private String Descripcion;
