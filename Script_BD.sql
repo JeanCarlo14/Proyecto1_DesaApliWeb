@@ -394,8 +394,7 @@ SELECT Categorias.Nombre as Categoria, Productos.Id as IdProducto, Marcas.Nombre
 END
 GO
 
-<<<<<<< HEAD
-=======
+
 --- producto especifico --
 create PROCEDURE PA018
 @p_idProducto int
@@ -419,6 +418,6 @@ GO
 /* alter*/
 
 ALTER TABLE productos ADD Imagen varchar(100); 
->>>>>>> commit
+
 
 
