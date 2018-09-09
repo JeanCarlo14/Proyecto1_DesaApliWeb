@@ -154,6 +154,7 @@ public class ArticulosServlet extends HttpServlet {
 			nodoProducto.put("descripcion",listaProductos.get(i).getDescripcion() );
 			nodoProducto.put("precio", listaProductos.get(i).getPrecio());
                         nodoProducto.put("cantidad",listaProductos.get(i).getCantidad() );
+                        nodoProducto.put("imagen",listaProductos.get(i).getImagen() );
 			jsonArr.add(nodoProducto);
 		}
 

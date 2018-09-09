@@ -15,6 +15,8 @@ public class Producto {
     private String descripcion;
     private float precio;
     private int cantidad;
+    private String imagen;
+
 
     public Producto() {
         id = 0;
@@ -93,6 +95,14 @@ public class Producto {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
+        public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
     
     
 }

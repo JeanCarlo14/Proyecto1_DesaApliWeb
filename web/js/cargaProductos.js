@@ -1,7 +1,5 @@
 $(document).ready(function () {
-    //creaCardProducto();
-    productos();
-    pruebas();
+    listaProductos();
 });
 
 function creaCardProducto(prod) {
@@ -11,7 +9,7 @@ function creaCardProducto(prod) {
             '<h3 class="m_1">' + prod.descripcion + '</h3>' +
             '<p class="m_2">' + prod.marca + '</p>' +
             '<div class="grid_img">' +
-            '<div class="css3"><img src="images/pic5.jpg" alt=""/></div>' +
+            '<div class="css3"><img src="images/'+prod.imagen+'" alt=""/></div>' +
             '<div class="mask">' +
             '<div class="info">Quick View</div>' +
             '  </div>' +
@@ -50,64 +48,21 @@ function creaCardProducto(prod) {
     return cardHtml;
 }
 
-function pruebas() {
+function listaProductos() {
     console.log("pruebas");
     $.ajax({
-        // la URL para la petición
         url: 'ArticulosServlet',
-
-        // la información a enviar
-        // (también es posible utilizar una cadena de datos)
         data: {accion: "a"},
-
-        // especifica si será una petición POST o GET
         type: 'post',
-
-        // el tipo de información que se espera de respuesta
         dataType: 'json',
         success: function (datos) {
-   
-            listaProductos(datos.productos);
+            addProds(datos.productos);
         },
         error: function (xhr, status) {
-            alert('Disculpe, existió un problema');
+            console.log('Disculpe, existió un problema al cargar los productos');
         },
         complete: function (xhr, status) {
-            alert('Petición realizada');
-        }
-    });
-}
-
-function listaProductos (array){
-  $.each(array, function( index, value ) {
-  creaCardProducto(array[index]);
-});
-}
-
-function productos() {
-    $.ajax({
-        // la URL para la petición
-        url: 'ArticulosServlet',
-
-        // la información a enviar
-        // (también es posible utilizar una cadena de datos)
-        data: {accion: "getProds"},
-
-        // especifica si será una petición POST o GET
-        type: 'get',
-
-        // el tipo de información que se espera de respuesta
-        dataType: 'json',
-        success: function (datos) {
-            if (datos.estado) {
-                addProds(datos.respuesta);
-            }
-        },
-        error: function (xhr, status) {
-            alert('Disculpe, existió un problema');
-        },
-        complete: function (xhr, status) {
-            alert('Petición realizada');
+            console.log('Ptroductos cargados exitosamente');
         }
     });
 }

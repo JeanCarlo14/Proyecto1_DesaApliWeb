@@ -41,6 +41,7 @@ public class ManagerServlet {
                                         producto.setDescripcion(resultSet.getString("DESCRIPCION"));
                                         producto.setPrecio(resultSet.getInt("PRECIO"));
                                         producto.setCantidad(resultSet.getInt("CANTIDAD"));
+                                        producto.setImagen(resultSet.getString("IMAGEN"));
 
 					listaProductos.add(producto);
 				}
