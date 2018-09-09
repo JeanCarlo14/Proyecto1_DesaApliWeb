@@ -11,7 +11,7 @@ import Conexiones.Producto;
  *
  * @author Ana
  */
-public class Item {
+public class ItemCarrito {
     
     private int Id;
     private Carrito carrito;

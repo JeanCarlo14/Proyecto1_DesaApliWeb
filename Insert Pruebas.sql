@@ -36,14 +36,17 @@ INSERT INTO [dbo].[Productos]
            ,[Marca]
            ,[Descripcion]
            ,[Precio]
-           ,[Cantidad])
+           ,[Cantidad]
+           ,[Imagen])
      VALUES
            (1
            ,1
-           ,'Son unos lentes'
+           ,'Son unos lentes' 
            ,10000
-           ,30)
+           ,30
+           ,'pic.jpg')
 GO
+
 
 --- Insertar Tarjeta -----
 INSERT INTO [dbo].[Tarjetas]
