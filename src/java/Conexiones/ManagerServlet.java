@@ -246,5 +246,39 @@ public boolean eliminarItem(int idItem) throws SQLException {
                 }
 
 
+public boolean actualizarItem(int idItem, int cantidad) throws SQLException {
+    
+    
+		boolean flag = true;
+                String sql;
+                CallableStatement callableStatement = null;
+                
+                Connection connection = getConnection();
+		try {
+			connection = getConnection();
+			if (connection != null) {
+				sql = "{call PA014(?,?)}";
+				callableStatement = connection.prepareCall(sql);
+				callableStatement.setInt(1,idItem);
+                                callableStatement.setInt(2,cantidad);
+				callableStatement.execute();
+			}
+		} catch (Exception e) {
+			flag = false;
+			e.printStackTrace();
+		} finally {
+                    if (callableStatement != null) {
+                        callableStatement.close();
+                        callableStatement = null;
+                    }
+                    if (connection != null && connection.isClosed()) {
+                        connection.close();
+                        connection = null;
+                    }
+		}
+		return flag;
+                }
+
+
     
 }

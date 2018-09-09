@@ -66,7 +66,10 @@ public class ArticulosServlet extends HttpServlet {
                         break;
                      case "e":
                         mensaje = eliminarItem(request, response);
-                        break;   
+                        break;
+                     case "f":
+                        mensaje = actualizarItem(request, response);
+                        break;    
                     case "getProds":
                         mensaje = getAllProds(request, response);
                         break;
@@ -254,7 +257,8 @@ public class ArticulosServlet extends HttpServlet {
 		
 		ManagerServlet mngServlet = new ManagerServlet();
 		ArrayList<ItemCarrito> listaItemCarrito = mngServlet.consultarItemsCarrito(Integer.parseInt(request.getParameter("idCarrito")));
-
+                float subtotal = 0;
+                float total = 0;
 		for (int i = 0; i < listaItemCarrito.size(); i++) {
 			nodoItemCarrito = new JSONObject();
 			nodoItemCarrito.put("id", listaItemCarrito.get(i).getId());
@@ -262,13 +266,16 @@ public class ArticulosServlet extends HttpServlet {
 			nodoItemCarrito.put("descripcion",listaItemCarrito.get(i).getDescripcion() );
 			nodoItemCarrito.put("precio", listaItemCarrito.get(i).getPrecio());
                         nodoItemCarrito.put("cantidad",listaItemCarrito.get(i).getCantidad() );
-                        
+                        subtotal = listaItemCarrito.get(i).getCantidad() * listaItemCarrito.get(i).getPrecio();
+                        nodoItemCarrito.put("subtotal",subtotal);
+                        total += subtotal;
 			jsonArr.add(nodoItemCarrito);
 		}
 
 		JSONObject mainObj = new JSONObject();
 		//try {
 			mainObj.put("ItemsCarrito", jsonArr);
+                        mainObj.put("total", total);
 			//mainObj.put("total", mngFacturar.getMaximo());
 			
 			return mainObj.toString();
@@ -293,7 +300,21 @@ public class ArticulosServlet extends HttpServlet {
 
 		return nodoItem.toString();
 	}
+private String actualizarItem(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		/* Formato JSON */
+		
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoItem = new JSONObject();
+		nodoItem.put("estado", false);
 
+		ManagerServlet mngServlet = new ManagerServlet();
+		if (mngServlet.actualizarItem(Integer.parseInt(request.getParameter("idItem")),Integer.parseInt(request.getParameter("cantidad")))) {
+			nodoItem.put("estado", true);
+		}
+
+		return nodoItem.toString();
+	}
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
