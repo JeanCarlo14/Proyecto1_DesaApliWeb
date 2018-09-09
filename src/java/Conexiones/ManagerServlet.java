@@ -283,7 +283,53 @@ public boolean eliminarItem(int idItem) throws SQLException {
 		}
 		return flag;
                 }
-                                
+ public Usuario UserLongin(String email, String pass) {
+		Usuario usuario = new Usuario();
+		String sql;
+                CallableStatement callableStatement = null;
+                ResultSet resultSet = null;
+                Connection connection = getConnection();
+		try {
+                    
+			if (connection != null) {
+				sql = "{call PA020(?,?)}";
+				callableStatement = connection.prepareCall(sql);
+                                callableStatement.setString(1, email);
+                                callableStatement.setString(2, pass);
+				resultSet = callableStatement.executeQuery();
+                              //  System.out.print(resultSet.next());
+				while (resultSet.next()) {
+                                    //System.out.println(resultSet.next());
+					usuario = new Usuario();
+                                        usuario.setNombre(resultSet.getString("Nombre"));
+                                        usuario.setApellido1(resultSet.getString("Apellido1"));
+                                        usuario.setApellido2(resultSet.getString("Apellido2"));
+                                        usuario.setEmail(resultSet.getString("Email"));
+				}
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			//cmdMessage.SqlErrMessage("ManagerFacturar", "consultarReceptores", sqle);
+		} finally {
+			try {
+				if (callableStatement != null) {
+					callableStatement.close();
+					callableStatement = null;
+				}
+				if (connection != null && !connection.isClosed()) {
+					connection.close();
+					connection = null;
+				}
+				if (resultSet != null) {
+					resultSet.close();
+					resultSet = null;
+				}
+			} catch (SQLException e) {
+				//cmdMessage.SqlErrMessage("ManagerFacturar", "consultarReceptores", e);
+			}
+		}
+		return usuario;
+	}                             
 
 
 public boolean actualizarItem(int idItem, int cantidad) throws SQLException {

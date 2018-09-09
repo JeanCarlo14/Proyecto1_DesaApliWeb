@@ -5,6 +5,70 @@
  */
 
 
+function getSession(){
+    var valores = {};
+    
+    valores.accion ="getSession";
+    
+    console.log(valores);
+    $.ajax({
+        url: 'ArticulosServlet',
+        data: valores,
+        type: 'post',
+        dataType: 'json',
+        success: function (datos) {
+        
+            if(datos.estado){             
+                 $("#myAcou").hide();
+                 $("#mySign").hide();  
+                 $("#nameUser").text(datos.nombre);
+            }
+            else{
+                 $("#myAcou").show();
+                 $("#mySign").show();          
+            }
+                   
+        },
+        error: function (xhr, status) {
+            console.log('Disculpe, existió un problema al logearse');
+        },
+        complete: function (xhr, status) {
+            console.log('Login exitoso');
+        }
+    });
+    
+}
+
+
+function usuarioLogin(){
+    var valores = {};
+    
+    valores.accion ="userLogin";
+    valores.uEmail = $("#uEmail").val();
+    valores.uPass = $("#pass").val();
+    
+    console.log(valores);
+    $.ajax({
+        url: 'ArticulosServlet',
+        data: valores,
+        type: 'post',
+        dataType: 'json',
+        success: function (datos) {
+            if(datos.estado){
+                 location.href ="./";  
+            }
+                   
+        },
+        error: function (xhr, status) {
+            console.log('Disculpe, existió un problema al logearse');
+        },
+        complete: function (xhr, status) {
+            console.log('Login exitoso');
+        }
+    });
+    
+}
+
 
 
 function crearUsuario() { //Crear Usuario

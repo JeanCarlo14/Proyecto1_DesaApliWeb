@@ -413,5 +413,16 @@ select items.id,productos.Imagen,productos.Descripcion,productos.Precio,items.Ca
 END
 GO
 
+--- Consultar Usuario por email y pass --
+create  PROCEDURE PA020
+    @Email nvarchar(255),
+	@Pass  nvarchar(16)
+AS
+BEGIN
+    Select Nombre, Apellido1, Apellido2,  Email from Usuarios where Email=@Email and Pass=@Pass 
+END
+go
+
+
 
 

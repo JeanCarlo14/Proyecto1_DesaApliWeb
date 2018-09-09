@@ -5,9 +5,10 @@
 	    </div>
 	    <div class="cssmenu">
 		   <ul>
-			 <li class="active"><a href="register.jsp">Sign up & Save</a></li> 
-			  <li><a href="login.jsp">My Account</a></li> 
+                       <li class="active"><a id="mySign" name="mySign" href="register.jsp">Sign up & Save</a></li> 
+			  <li><a  id="myAcou" name="myAcou" href="login.jsp" hidden>My Account</a></li> 
 			 <li><a href="checkout.jsp">CheckOut</a></li> 
+                         <li><p id="nameUser" name="nameUser"></p></li>
 		   </ul>
 		</div>
 		<ul class="icon2 sub-icon2 profile_img">
@@ -30,3 +31,18 @@
 		   <div class="clear"></div>
      	</div>
        </div>
+
+ <script type="text/javascript" src="js/metodosUsuarios.js"></script>
+ <script>
+ $(document).ready(function () {
+    //  $("#myAcou").hide();
+      
+      getSession();
+      
+     
+   // getSession();
+        // if(datos.estado){             
+            //    alert(datos.email);
+            //}
+});
+ </script>

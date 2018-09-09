@@ -24,6 +24,7 @@
         <!-- top scrolling -->
         <script type="text/javascript" src="js/move-top.js"></script>
         <script type="text/javascript" src="js/easing.js"></script>
+        <script type="text/javascript" src="js/metodosUsuarios.js"></script>
         <title>Login</title>
     </head>
     <body>
@@ -36,7 +37,7 @@
 					<h5 class="sub_title">Register Account</h5>
 					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan</p>
 					<div class="button1">
-					   <a href="register.html"><input type="submit" name="Submit" value="Continue"></a>
+					   <a href="register.jsp"><input type="submit" name="Submit" value="Continue"></a>
 					 </div>
 					 <div class="clear"></div>
 				</div>
@@ -44,24 +45,22 @@
 				  <div class="login-title">
 	           		<h4 class="title">Registered Customers</h4>
 					 <div class="comments-area">
-						<form>
+						
 							<p>
-								<label>Name</label>
+								<label>Email</label>
 								<span>*</span>
-								<input type="text" value="">
+								<input id="uEmail" name="uEmail" type="text" value="">
 							</p>
 							<p>
 								<label>Password</label>
 								<span>*</span>
-								<input type="password" value="">
+								<input id="pass" name="pass" type="password" value="">
 							</p>
-							 <p id="login-form-remember">
-								<label><a href="#">Forget Your Password ? </a></label>
-							 </p>
+					
 							 <p>
-								<input type="submit" value="Login">
-							</p>
-						</form>
+                                                                <button class="grey"  onclick="usuarioLogin()">Login</button> 
+							 </p>
+						
 					</div>
 			      </div>
 				</div>

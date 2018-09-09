@@ -27,6 +27,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -86,7 +87,15 @@ public class ArticulosServlet extends HttpServlet {
                      case "createUser":
                         mensaje = createUser(request, response);
                         break;
-
+                        
+                    case "userLogin":
+                        mensaje = userLogin(request, response);
+                        break;
+                        
+                    case "getSession":
+                        mensaje = getSession(request, response);
+                        break;
+                    
                     default:
                         mensaje = "sin accion";
                 }
@@ -322,6 +331,58 @@ public class ArticulosServlet extends HttpServlet {
 		return nodoUsuario.toString();
 	}
           
+         private String userLogin(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoUsuario = new JSONObject();
+		nodoUsuario.put("estado", false);
+
+		ManagerServlet mngServlet = new ManagerServlet();
+                Usuario usuario = mngServlet.UserLongin(request.getParameter("uEmail"),request.getParameter("uPass"));
+                
+			nodoUsuario.put("nombre", usuario.getNombre());
+			nodoUsuario.put("apellido1",usuario.getApellido1());
+			nodoUsuario.put("apellido2",usuario.getApellido2());
+			nodoUsuario.put("email", usuario.getEmail());
+
+                        if(usuario.getEmail() != null && usuario.getEmail().length() !=0){
+                            nodoUsuario.put("estado", true);
+                            HttpSession session= request.getSession(true);
+                            session.setAttribute("sUser",usuario);
+                        }
+			
+			return nodoUsuario.toString();
+	}
+         
+         
+         
+         private String getSession(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoUsuario = new JSONObject();
+		nodoUsuario.put("estado", false);
+                
+                HttpSession misession= (HttpSession) request.getSession(); 
+                Usuario usuario = (Usuario) misession.getAttribute("sUser");               
+
+			nodoUsuario.put("nombre", usuario.getNombre());
+			nodoUsuario.put("apellido1",usuario.getApellido1());
+			nodoUsuario.put("apellido2",usuario.getApellido2());
+			nodoUsuario.put("email", usuario.getEmail());
+
+                        if(usuario.getEmail() != null && usuario.getEmail().length() !=0){
+                            nodoUsuario.put("estado", true);
+                        }
+			
+			return nodoUsuario.toString();
+	}
+         
+         
+         
+         
+         
   private String eliminarItem(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		/* Formato JSON */
 		
