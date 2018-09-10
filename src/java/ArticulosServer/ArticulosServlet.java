@@ -75,7 +75,10 @@ public class ArticulosServlet extends HttpServlet {
                         break;
                      case "l":
                         mensaje = cargarListaTarjetas(request, response);
-                        break;   
+                        break;
+                        case "m":
+                        mensaje = checkout(request, response);
+                        break;
                     case "getProds":
                         mensaje = getAllProds(request, response);
                         break;
@@ -376,6 +379,20 @@ private String cargarListaTarjetas(HttpServletRequest request, HttpServletRespon
         return mainObj.toString();
     }
 
+    private String checkout(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+        response.setContentType("application/json, charset=UTF-8");
+	response.setCharacterEncoding("UTF-8");
+	JSONObject nodoItem = new JSONObject();
+	nodoItem.put("estado", false);
+
+	ManagerServlet mngServlet = new ManagerServlet();
+	if (mngServlet.actualizarCarrito(Integer.parseInt(request.getParameter("idCarrito")), true)) {
+            nodoItem.put("estado", true);
+	}
+        
+        return nodoItem.toString();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -422,6 +439,7 @@ private String cargarListaTarjetas(HttpServletRequest request, HttpServletRespon
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 
 }
 

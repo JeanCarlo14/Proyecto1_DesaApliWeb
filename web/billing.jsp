@@ -32,9 +32,18 @@
         <script type="text/javascript" src="js/move-top.js"></script>
         <script type="text/javascript" src="js/easing.js"></script>
         <script type="text/javascript" src="js/billing.js"></script>
+        <script language="javascript">
+
+            function datosCarrito() {
+            <%int idCarrito = Integer.parseInt(request.getParameter("idCarrito"));%>
+                var idCarrito = "<%=idCarrito%>";
+                cargarCarrito(idCarrito);
+            }
+
+        </script> 
 
     </head>
-    <body>
+    <body onload="datosCarrito()">
         <%@ include file="menu.jsp" %> 
         <div class="login">
             <!--<div class="wrap">
@@ -103,8 +112,8 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
-                            <td><a href="payment.jsp" class="btn btn-success pull-right">Payment <i class="fa fa-angle-right"></i></a></td>
+                            <td><a href="checkout.jsp?idCarrito=<%= idCarrito%>" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                            <td><a href="payment.jsp?idCarrito=<%= idCarrito%>" class="btn btn-success pull-right">Payment <i class="fa fa-angle-right"></i></a></td>
                         </tr>
                     </tfoot>
                 </table>

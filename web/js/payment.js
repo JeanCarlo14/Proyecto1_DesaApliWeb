@@ -13,15 +13,44 @@ jQuery(document).ready(function ($) {
 
 
     $().UItoTop({easingType: 'easeOutQuart'});
-
-    cargarTarjetas();
 });
 
+function completePurchase(id) {
+    var valores = {};
+    valores.accion = "m";
+    valores.idCarrito = id;
+    console.log(valores);
+    $.ajax({
+        url: 'ArticulosServlet',
+        data: valores,
+        type: 'post',
+        dataType: 'json',
+        success: function (datos) {
+            var res = datos.estado;
+            if (res) {
+                $("#modalMessageTitle").html('Congratulations!');
+                $("#modalMessage").html('<p>Your order has been placed.</p>');
+            } else {
+                $("#modalMessageTitle").html('OOPS!');
+                $("#modalMessage").html('<p>There was an error placing your order.</p>');
+            }
+        },
+        error: function (xhr, status) {
+            $("#modalMessageTitle").html('OOPS!');
+            $("#modalMessage").html('<p>There was an error placing your order.</p>');
+            console.log(status);
+            console.log('Disculpe, existió un problema al recoger informacion de las tarjetas');
+        },
+        complete: function (xhr, status) {
+            console.log('No hay mas detalles');
+        }
+    });
+}
 
-function cargarTarjetas() {
+function cargarTarjetas(id) {
     var valores = {};
     valores.accion = "l";
-    valores.idUsuario = 'hshhs'; 
+    valores.idUsuario = id;
     console.log(valores);
     $.ajax({
         url: 'ArticulosServlet',

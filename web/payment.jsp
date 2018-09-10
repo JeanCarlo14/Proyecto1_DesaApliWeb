@@ -32,9 +32,24 @@
         <script type="text/javascript" src="js/move-top.js"></script>
         <script type="text/javascript" src="js/easing.js"></script>
         <script type="text/javascript" src="js/payment.js"></script>
+        <script language="javascript">
+
+            function datosUsuario() {
+            <%
+                int idCarrito = Integer.parseInt(request.getParameter("idCarrito"));
+                String idUsuario = (String) session.getAttribute("idUsuario");
+                if (idUsuario == null) {
+                    idUsuario = "hshhs";
+                }
+            %>
+                var idUsuario = "<%=idUsuario%>";
+                cargarTarjetas(idUsuario);
+            }
+
+        </script>
 
     </head>
-    <body>
+    <body onload="datosUsuario()">
         <%@ include file="menu.jsp" %> 
         <div class="login">
             <!--<div class="wrap">
@@ -57,8 +72,8 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
-                            <td><a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal">Complete Payment <i class="fa fa-angle-right"></i></a></td>
+                            <td><a href="billing.jsp?idCarrito=<%= idCarrito%>" class="btn btn-warning"><i class="fa fa-angle-left"></i> Billing Info</a></td>
+                            <td><a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal" onClick="completePurchase(<%= idCarrito%>)">Complete Payment <i class="fa fa-angle-right"></i></a></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -73,14 +88,14 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Congratulations!</h4>
+                        <!--button type="button" class="close" data-dismiss="modal">&times;</button-->
+                        <h4 id="modalMessageTitle" class="modal-title"></h4>
                     </div>
-                    <div class="modal-body">
-                        <p>Your order has been placed.</p>
+                    <div id="modalMessage" class="modal-body">
+
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal">OK!</button>
+                        <button href="index.jsp" type="button" class="btn btn-success btn-block" data-dismiss="modal">OK!</button>
                     </div>
                 </div>
             </div>

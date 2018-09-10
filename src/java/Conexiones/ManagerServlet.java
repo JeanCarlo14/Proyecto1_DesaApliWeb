@@ -367,4 +367,35 @@ public boolean actualizarItem(int idItem, int cantidad) throws SQLException {
         return listaIdTarjetas;
     }
 
+    public boolean actualizarCarrito(int carrito, boolean i) throws SQLException {
+        boolean flag = true;
+        String sql;
+        CallableStatement callableStatement = null;
+
+        Connection connection = getConnection();
+        try {
+            connection = getConnection();
+            if (connection != null) {
+                sql = "{call PA009(?,?)}";
+                callableStatement = connection.prepareCall(sql);
+                callableStatement.setInt(1, carrito);
+                callableStatement.setBoolean(2, i);
+                callableStatement.execute();
+            }
+        } catch (Exception e) {
+            flag = false;
+            e.printStackTrace();
+        } finally {
+            if (callableStatement != null) {
+                callableStatement.close();
+                callableStatement = null;
+            }
+            if (connection != null && connection.isClosed()) {
+                connection.close();
+                connection = null;
+            }
+        }
+        return flag;
+    }
+
 }
