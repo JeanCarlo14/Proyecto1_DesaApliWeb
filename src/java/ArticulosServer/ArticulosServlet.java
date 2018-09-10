@@ -91,16 +91,7 @@ public class ArticulosServlet extends HttpServlet {
                     case "userLogin":
                         mensaje = userLogin(request, response);
                         break;
-                        
-                    case "getSession":
-                        mensaje = getSession(request, response);
-                        break;
-                        
-                     case "logout":
-                        mensaje = setSession(request, response);
-                        break;
-                    
-                    
+                                            
                     default:
                         mensaje = "sin accion";
                 }
@@ -359,54 +350,8 @@ public class ArticulosServlet extends HttpServlet {
 			
 			return nodoUsuario.toString();
 	}
-         
-         
-         
-         private String getSession(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-
-		response.setContentType("application/json, charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		JSONObject nodoUsuario = new JSONObject();
-		nodoUsuario.put("estado", false);
-                
-                HttpSession misession= (HttpSession) request.getSession(); 
-               // String auxSession  = (String) misession.getAttribute("sUser");
-              //  if(auxSession != null){
-                Usuario usuario = (Usuario) misession.getAttribute("sUser");               
-
-			nodoUsuario.put("nombre", usuario.getNombre());
-			nodoUsuario.put("apellido1",usuario.getApellido1());
-			nodoUsuario.put("apellido2",usuario.getApellido2());
-			nodoUsuario.put("email", usuario.getEmail());
-
-                        if(usuario.getEmail() != null && usuario.getEmail().length() !=0){
-                            nodoUsuario.put("estado", true);
-                        }
-               // }
-			
-			return nodoUsuario.toString();
-	}
-         
-         
-        private String setSession(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-
-		response.setContentType("application/json, charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		JSONObject nodoUsuario = new JSONObject();
-		nodoUsuario.put("estado", false);
-                
-                HttpSession misession= (HttpSession) request.getSession(); 
-                misession.invalidate();
-                   
-                nodoUsuario.put("estado", true);
-			
-	       return nodoUsuario.toString();
-	}
-         
-         
-         
-         
-  private String eliminarItem(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+                  
+private String eliminarItem(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		/* Formato JSON */
 		
 		response.setContentType("application/json, charset=UTF-8");

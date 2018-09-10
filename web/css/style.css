@@ -682,6 +682,9 @@ span.delivery{
 	float: left;
 	margin:0 0 0 3.6%; 
 }
+span.blue{
+	color:#20b8ff;
+}
 span.orange{
 	color:#FFAF02;
 }
@@ -1241,8 +1244,10 @@ button.grey {
 	float:left;
 }
 button.grey:hover{
-	background:#FFAF02;
-	border-bottom: 4px solid #DF9A06;
+	background:#20b8ff;
+        /*#FFAF02*/
+	border-bottom: 4px solid #00677C;
+        /*#DF9A06*/
 }
 p.terms {
 	float: left;

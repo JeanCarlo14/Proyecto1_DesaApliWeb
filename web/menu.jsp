@@ -1,4 +1,5 @@
-  <div class="header-top">
+  <%@page import="Model.Usuario"%>
+<div class="header-top">
 	 <div class="wrap"> 
 		<div class="logo">
 			<a href="./"><img src="images/logo.png" alt=""/></a>
@@ -8,7 +9,7 @@
                        <li class="active"><a id="mySign" name="mySign" href="register.jsp">Sign up & Save</a></li> 
 			  <li><a  id="myAcou" name="myAcou" href="login.jsp" >My Account</a></li> 
 			 <li><a href="checkout.jsp">CheckOut</a></li> 
-                         <li><p id="nameUser" name="nameUser"></p></li>
+                         <li><a id="nameUser" name="nameUser"></a></li>
                          <li><a  id="myLogout" name="myLogout" href="#" onclick="logout()">Logout</a></li>
 		   </ul>
 		</div>
@@ -36,14 +37,38 @@
  <script type="text/javascript" src="js/metodosUsuarios.js"></script>
  <script>
  $(document).ready(function () {
-    //  $("#myAcou").hide();
-      
-      getSession();
-      
-     
-   // getSession();
-        // if(datos.estado){             
-            //    alert(datos.email);
-            //}
+            <%
+                HttpSession misession= (HttpSession) request.getSession();
+                Usuario usuario = new Usuario();
+                boolean existe = false;
+                if(misession.getAttribute("sUser")!= null){
+                    usuario = (Usuario) misession.getAttribute("sUser"); 
+                    existe = true;
+                }
+            %>
+  
+            if("<%=existe%>" === "true"){    
+                 $("#myAcou").hide();
+                 $("#mySign").hide(); 
+                 $("#nameUser").show();
+                 var nombre = "<%=usuario.getNombre()%> "+"<%=usuario.getApellido1()%>";
+                 $("#nameUser").text(nombre);
+                 $("#myLogout").show(); 
+            }
+            else{
+                 $("#mySign").show(); 
+                 $("#myAcou").show();
+                 $("#nameUser").hide();
+                 $("#myLogout").hide(); 
+            }
+ 
 });
+
+function logout(){
+        <%
+            misession.invalidate();
+        %>
+        location.reload();                        
+}
  </script>
+ 
