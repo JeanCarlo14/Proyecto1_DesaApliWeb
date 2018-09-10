@@ -59,26 +59,86 @@
             <!-- tabla boostrap de carrito -->   
             <div class="container">
                 <h1>Payment</h1>
-                <table id="payment" class="table table-hover table-condensed">
-                    <tbody>
-                        <tr>
-                            <td>Card:</td>
-                            <td>
-                                <select name="card" id="card" class="form-control" value="">
-                                    <option></option>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td><a href="billing.jsp?idCarrito=<%= idCarrito%>" class="btn btn-warning"><i class="fa fa-angle-left"></i> Billing Info</a></td>
-                            <td><a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal" onClick="completePurchase(<%= idCarrito%>)">Complete Payment <i class="fa fa-angle-right"></i></a></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Existing Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">+ Other Card</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <table id="payment" class="table table-hover table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>Card:</td>
+                                    <td>
+                                        <select name="card" id="card" class="form-control" value="">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <table id="payment" class="table table-hover table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td>Card Number:</td>
+                                    <td>
+                                        <input id="cardnumber" type="number" name="cardnumber" maxlength="16" class="form-control" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Expiration Date:</td>
+                                    <td>
+                                        <select name="month" id="month" class="form-control" value="">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                            <option>11</option>
+                                            <option>12</option>
+                                        </select>/<select name="year" id="year" class="form-control" value="">
+                                            <option>2018</option>
+                                            <option>2019</option>
+                                            <option>2020</option>
+                                            <option>2021</option>
+                                            <option>2022</option>
+                                            <option>2023</option>
+                                            <option>2024</option>
+                                            <option>2025</option>
+                                            <option>2026</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>CCV:</td>
+                                    <td>
+                                        <input id="ccv" type="number" name="ccv" maxlength="4" class="form-control" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <table class="table table-hover table-condensed">
+                        <tbody>
+                            <tr>
+                                <td><a href="billing.jsp?idCarrito=<%= idCarrito%>" class="btn btn-warning"><i class="fa fa-angle-left"></i> Billing Info</a></td>
+                                <td><a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal" onClick="completePurchase(<%= idCarrito%>)">Complete Payment <i class="fa fa-angle-right"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>           
+                </div>
             </div>
-
         </div>
         <%@ include file="footer.jsp" %> 
         <a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"></span></a>  
