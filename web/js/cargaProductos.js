@@ -33,19 +33,7 @@ function creaCardProducto(prod) {
             '	        <label for="rating-input-1-1" class="rating-star"></label>&nbsp;' +
             '	  (45)' +
             '     </span>' +
-            '			 <ul class="list">' +
-            '			  <li>' +
-            '			  	<img src="images/plus.png" alt=""/>' +
-            '			  	<ul class="icon1 sub-icon1 profile_img">' +
-            '				  <li><a class="active-icon c1" href="single.jsp?idProducto='+prod.id+'">Add To Bag </a>' +
-            '					<ul class="sub-icon1 list">' +
-            '						<li><h3>sed diam nonummy</h3><a href=""></a></li>' +
-            '						<li><p>Lorem ipsum dolor sit amet, consectetuer  <a href="">adipiscing elit, sed diam</a></p></li>' +
-            '					</ul>' +
-            '				  </li>' +
-            '				 </ul>' +
-            '			   </li>' +
-            '		     </ul>' +
+
             '   	    <div class="clear"></div>' +
             '  	</a></div>';
     return cardHtml;
