@@ -61,6 +61,7 @@
               </div>-->
             <!-- tabla boostrap de carrito -->   
             <div class="container">
+                <input type="hidden" id="idCarrito" value="<%= idCarrito%>" >
                 <table id="cart" class="table table-hover table-condensed">
                     <thead>
                         <tr>
