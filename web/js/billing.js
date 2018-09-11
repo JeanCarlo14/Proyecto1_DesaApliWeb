@@ -13,8 +13,6 @@ jQuery(document).ready(function ($) {
 
 
     $().UItoTop({easingType: 'easeOutQuart'});
-
-    cargarCarrito();
 });
 function cargarTabla(item) {
     var fila = '<tr>' +
@@ -54,7 +52,6 @@ function cargarCarrito(id) {
             $("#carrito").html(tabla);
 
             $("#totalCarrito").html(datos.total);
-            $("#totalCarrito1").html(datos.total);
         },
         error: function (xhr, status) {
             console.log('Disculpe, existió un problema al guardar');

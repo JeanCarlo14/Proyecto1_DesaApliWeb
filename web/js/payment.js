@@ -15,10 +15,11 @@ jQuery(document).ready(function ($) {
     $().UItoTop({easingType: 'easeOutQuart'});
 });
 
-function completePurchase(id) {
+function completePurchase(idUsuario, idCarrito) {
     var valores = {};
     valores.accion = "m";
-    valores.idCarrito = id;
+    valores.idUsuario = idUsuario;
+    valores.idCarrito = idCarrito;
     console.log(valores);
     $.ajax({
         url: 'ArticulosServlet',
@@ -28,7 +29,7 @@ function completePurchase(id) {
         success: function (datos) {
             var res = datos.estado;
             if (res) {
-                $("#modalMessageTitle").html('Congratulations!');
+                $("#modalMessageTitle").html('Done!');
                 $("#modalMessage").html('<p>Your order has been placed.</p>');
             } else {
                 $("#modalMessageTitle").html('OOPS!');
@@ -39,7 +40,7 @@ function completePurchase(id) {
             $("#modalMessageTitle").html('OOPS!');
             $("#modalMessage").html('<p>There was an error placing your order.</p>');
             console.log(status);
-            console.log('Disculpe, existió un problema al recoger informacion de las tarjetas');
+            console.log('Disculpe, existió un problema al completar su compra');
         },
         complete: function (xhr, status) {
             console.log('No hay mas detalles');
