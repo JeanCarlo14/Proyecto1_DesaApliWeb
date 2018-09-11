@@ -28,7 +28,7 @@
        </div>
 
  <script type="text/javascript" src="js/metodosUsuarios.js"></script>
- <script>
+ <script type="text/javascript">
  $(document).ready(function () {
             <%
                 HttpSession misession= (HttpSession) request.getSession();
@@ -57,11 +57,6 @@
  
 });
 
-function logout(){
-        <%
-            misession.invalidate();
-        %>
-        location.reload();                        
-}
+
  </script>
  

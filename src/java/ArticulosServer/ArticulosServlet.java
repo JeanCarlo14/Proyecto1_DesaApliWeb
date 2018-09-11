@@ -91,6 +91,10 @@ public class ArticulosServlet extends HttpServlet {
                     case "userLogin":
                         mensaje = userLogin(request, response);
                         break;
+                        
+                    case "logout":
+                         mensaje = logout(request, response);
+                        break;
                                             
                     default:
                         mensaje = "sin accion";
@@ -346,6 +350,12 @@ public class ArticulosServlet extends HttpServlet {
                             nodoUsuario.put("estado", true);
                             HttpSession session= request.getSession(true);
                             session.setAttribute("sUser",usuario);
+                            
+                         
+                           Carrito carrito = mngServlet.CarritoUsuario(usuario.getEmail());
+                           if(carrito.getUsuario().getEmail()!=null && carrito.getUsuario().getEmail().length() !=0){
+                                session.setAttribute("carrito",carrito);
+                            }
                         }
 			
 			return nodoUsuario.toString();
@@ -407,6 +417,21 @@ private String cargarListaTarjetas(HttpServletRequest request, HttpServletRespon
 
         return mainObj.toString();
     }
+
+     private String logout(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+
+		response.setContentType("application/json, charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject nodoUsuario = new JSONObject();
+		nodoUsuario.put("estado", false);
+                
+                HttpSession misession= (HttpSession) request.getSession(); 
+                misession.invalidate();
+                   
+                nodoUsuario.put("estado", true);
+			
+	       return nodoUsuario.toString();
+	}
 
     private String checkout(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         response.setContentType("application/json, charset=UTF-8");

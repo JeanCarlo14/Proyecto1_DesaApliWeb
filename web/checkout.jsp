@@ -46,7 +46,7 @@
               }
             %>
                 var idCarrito = <%= idCarrito%>;
-                cargarCarrito(idCarrito);
+                cargarCarrito(idCarrito);               
             }
 
         </script>

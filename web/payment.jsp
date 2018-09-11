@@ -4,6 +4,7 @@
     Author     : nacho
 --%>
 
+<%@page import="Model.Carrito"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -36,8 +37,13 @@
 
             function datosUsuario() {
             <%
-                int idCarrito = Integer.parseInt(request.getParameter("idCarrito"));
-                String idUsuario = (String) session.getAttribute("idUsuario");
+              String idUsuario = null;
+              int idCarrito = 0;
+              if (session.getAttribute("carrito") != null) {
+                  idCarrito = ((Carrito) session.getAttribute("carrito")).getId();
+                  idUsuario = ((Carrito) session.getAttribute("carrito")).getUsuario().getEmail();
+              } 
+              
                 if (idUsuario == null) {
                     idUsuario = "hshhs";
                 }

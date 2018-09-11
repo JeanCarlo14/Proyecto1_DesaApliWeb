@@ -6,6 +6,7 @@
 package Conexiones;
 
 import static Conexiones.Conexion.getConnection;
+import Model.Carrito;
 import Model.Item;
 import Model.ItemCarrito;
 import Model.TarjetaNombre;
@@ -332,7 +333,55 @@ public boolean eliminarItem(int idItem) throws SQLException {
 		return usuario;
 	}                             
 
-
+public Carrito CarritoUsuario(String email) {
+		Carrito carrito = new Carrito();
+		String sql;
+                CallableStatement callableStatement = null;
+                ResultSet resultSet = null;
+                Connection connection = getConnection();
+		try {
+                    
+			if (connection != null) {
+				sql = "{call PA010(?)}";
+				callableStatement = connection.prepareCall(sql);
+                                callableStatement.setString(1, email);
+				resultSet = callableStatement.executeQuery();
+                              //  System.out.print(resultSet.next());
+				while (resultSet.next()) {
+                                    carrito = new Carrito();
+                                    Usuario u = new Usuario();
+                                    u.setEmail(resultSet.getString("Usuario"));
+                                    carrito.setUsuario(u);
+                                    carrito.setId(Integer.parseInt(resultSet.getString("Id")));
+                                    carrito.setCheckout(Boolean.parseBoolean(resultSet.getString("Checkout")));
+				}
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			//cmdMessage.SqlErrMessage("ManagerFacturar", "consultarReceptores", sqle);
+		} finally {
+			try {
+				if (callableStatement != null) {
+					callableStatement.close();
+					callableStatement = null;
+				}
+				if (connection != null && !connection.isClosed()) {
+					connection.close();
+					connection = null;
+				}
+				if (resultSet != null) {
+					resultSet.close();
+					resultSet = null;
+				}
+			} catch (SQLException e) {
+				//cmdMessage.SqlErrMessage("ManagerFacturar", "consultarReceptores", e);
+			}
+		}
+		return carrito;
+	}    
+ 
+ 
+ 
 public boolean actualizarItem(int idItem, int cantidad) throws SQLException {
     
     

@@ -4,6 +4,32 @@
  * and open the template in the editor.
  */
 
+function logout(){
+    var valores = {};    
+    valores.accion ="logout";
+    
+    console.log(valores);
+    $.ajax({
+        url: 'ArticulosServlet',
+        data: valores,
+        type: 'post',
+        dataType: 'json',
+        success: function (datos) {
+        
+            if(datos.estado){             
+                location.reload();
+            }
+        },
+        error: function (xhr, status) {
+            console.log('Disculpe, existió un problema al logearse');
+        },
+        complete: function (xhr, status) {
+            console.log('Login exitoso');
+        }
+    });
+    
+}
+
 
 function usuarioLogin(){
     var valores = {};
