@@ -13,8 +13,6 @@ jQuery(document).ready(function ($) {
 
 
     $().UItoTop({easingType: 'easeOutQuart'});
-
-    cargarCarrito();
 });
 function cargarTabla(item) {
     var fila = '<tr>' +

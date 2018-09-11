@@ -35,14 +35,17 @@
         <script language="javascript">
 
             function datosUsuario() {
+                console.log("idUsuario");
             <%
+                //HttpSession msession= (HttpSession) request.getSession();
                 int idCarrito = Integer.parseInt(request.getParameter("idCarrito"));
-                String idUsuario = (String) session.getAttribute("idUsuario");
+                String idUsuario = ((Usuario) session.getAttribute("sUser")).getEmail();
                 if (idUsuario == null) {
                     idUsuario = "hshhs";
                 }
             %>
                 var idUsuario = "<%=idUsuario%>";
+                console.log(idUsuario);
                 cargarTarjetas(idUsuario);
             }
 
@@ -133,7 +136,7 @@
                         <tbody>
                             <tr>
                                 <td><a href="billing.jsp?idCarrito=<%= idCarrito%>" class="btn btn-warning"><i class="fa fa-angle-left"></i> Billing Info</a></td>
-                                <td><a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal" onClick="completePurchase(<%= idCarrito%>)">Complete Payment <i class="fa fa-angle-right"></i></a></td>
+                                <td><a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal" onClick="completePurchase(<%= idUsuario%>,<%= idCarrito%>)">Complete Payment <i class="fa fa-angle-right"></i></a></td>
                             </tr>
                         </tbody>
                     </table>           

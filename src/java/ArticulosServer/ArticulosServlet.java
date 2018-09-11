@@ -335,7 +335,7 @@ public class ArticulosServlet extends HttpServlet {
 		nodoUsuario.put("estado", false);
 
 		ManagerServlet mngServlet = new ManagerServlet();
-                Usuario usuario = mngServlet.UserLongin(request.getParameter("uEmail"),request.getParameter("uPass"));
+                Usuario usuario = mngServlet.UserLogin(request.getParameter("uEmail"),request.getParameter("uPass"));
                 
 			nodoUsuario.put("nombre", usuario.getNombre());
 			nodoUsuario.put("apellido1",usuario.getApellido1());
@@ -346,6 +346,10 @@ public class ArticulosServlet extends HttpServlet {
                             nodoUsuario.put("estado", true);
                             HttpSession session= request.getSession(true);
                             session.setAttribute("sUser",usuario);
+                            Carrito carrito = mngServlet.consultarCarritoUsuario(usuario.getEmail());
+                            carrito.setUsuario(usuario);
+                            session.setAttribute("carrito", carrito);
+                            System.out.println(usuario.getEmail()+" "+carrito.getId());
                         }
 			
 			return nodoUsuario.toString();
@@ -417,6 +421,7 @@ private String cargarListaTarjetas(HttpServletRequest request, HttpServletRespon
 	ManagerServlet mngServlet = new ManagerServlet();
 	if (mngServlet.actualizarCarrito(Integer.parseInt(request.getParameter("idCarrito")), true)) {
             nodoItem.put("estado", true);
+            mngServlet.crearCarrito(request.getParameter("idUsuario"));
 	}
         
         return nodoItem.toString();
