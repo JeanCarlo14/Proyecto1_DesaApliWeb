@@ -1,5 +1,4 @@
 --- Nombre de la base de datos BD_Project1 ----
-
 Create Database BD_Project1;
 GO
 
