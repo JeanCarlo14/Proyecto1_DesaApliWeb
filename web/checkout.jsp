@@ -38,11 +38,9 @@
 
             function datosCarrito() {
             <%
-              int idCarrito;
+              int idCarrito = 1;
               if (session.getAttribute("carrito") != null) {
                   idCarrito = ((Carrito) session.getAttribute("carrito")).getId();
-              } else {
-                  idCarrito = 1;
               }
             %>
                 var idCarrito = <%= idCarrito%>;
@@ -88,12 +86,11 @@
                             <td class="hidden-xs"></td>
                             <td class="hidden-xs text-center" ><strong>Total:</strong></td>
                             <td class="hidden-xs text-center" ><strong id="totalCarrito1"></strong></td>
-                            <td><a href="billing.jsp?idCarrito=<%= idCarrito%>" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+                            <td><a id='nextbtn' href="billing.jsp?idCarrito=<%= idCarrito%>" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
-
         </div>
         <%@ include file="footer.jsp" %> 
         <a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"></span></a>       

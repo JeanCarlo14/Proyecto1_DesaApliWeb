@@ -136,11 +136,11 @@ $(window).load(function() {
     });
 }
 
-function agregarItem() { //agrega item al carrito
+function agregarItem(carrito) { //agrega item al carrito
     //console.log("single");
     var valores = {};
     valores.accion ="c";
-    valores.idCarrito = 1; //si se mete en la session se tiene q quitar deaqui y meterlo desde el servlet
+    valores.idCarrito = carrito; //si se mete en la session se tiene q quitar deaqui y meterlo desde el servlet
     valores.idProducto = $("#idProducto").val();
     valores.cantidad = 1;
     console.log(valores);

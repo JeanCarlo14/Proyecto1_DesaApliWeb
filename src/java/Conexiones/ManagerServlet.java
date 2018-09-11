@@ -127,9 +127,6 @@ public class ManagerServlet {
     }
 
     public boolean agregarItem(Item item) throws SQLException {
-        System.out.println(item.getCarrito().getId());
-        System.out.println(item.getProducto().getId());
-        System.out.println(item.getCantidad());
 
         boolean flag = true;
         String sql;
@@ -501,6 +498,39 @@ public class ManagerServlet {
                 callableStatement = connection.prepareCall(sql);
                 callableStatement.setString(1, username);
                 callableStatement.setInt(2, 0);
+                callableStatement.execute();
+            }
+        } catch (Exception e) {
+            flag = false;
+            e.printStackTrace();
+        } finally {
+            if (callableStatement != null) {
+                callableStatement.close();
+                callableStatement = null;
+            }
+            if (connection != null && connection.isClosed()) {
+                connection.close();
+                connection = null;
+            }
+        }
+        return flag;
+    }
+
+    public boolean agregarTarjeta(TarjetaNombre tarjeta) throws SQLException {
+        boolean flag = true;
+        String sql;
+        CallableStatement callableStatement = null;
+
+        Connection connection = getConnection();
+        try {
+            connection = getConnection();
+            if (connection != null) {
+                sql = "{call PA005(?,?,?,?)}";
+                callableStatement = connection.prepareCall(sql);
+                callableStatement.setInt(1, tarjeta.getNumero());
+                callableStatement.setString(2, tarjeta.getUsuario());
+                callableStatement.setDate(3, tarjeta.getFecha_Exp());
+                callableStatement.setInt(4, tarjeta.getCcv());
                 callableStatement.execute();
             }
         } catch (Exception e) {

@@ -20,6 +20,9 @@ function completePurchase(idUsuario, idCarrito) {
     valores.accion = "m";
     valores.idUsuario = idUsuario;
     valores.idCarrito = idCarrito;
+    if($( "#profile" ).hasClass( "active" ) && document.getElementById('addcard').checked){
+        guardarTarjeta(idUsuario);
+    }
     console.log(valores);
     $.ajax({
         url: 'ArticulosServlet',
@@ -70,6 +73,32 @@ function cargarTarjetas(id) {
         error: function (xhr, status) {
             console.log(status);
             console.log('Disculpe, existió un problema al recoger informacion de las tarjetas');
+        },
+        complete: function (xhr, status) {
+            console.log('No hay mas detalles');
+        }
+    });
+}
+
+function guardarTarjeta(id) {
+    var valores = {};
+    valores.accion = "n";
+    valores.numero = $("#cardnumber").val();
+    valores.usuario = id;
+    valores.fecha_exp = $("#year").val()+'-'+$("#month").val()+'-01';
+    valores.ccv = $("#ccv").val();
+    console.log(valores);
+    $.ajax({
+        url: 'ArticulosServlet',
+        data: valores,
+        type: 'post',
+        dataType: 'json',
+        success: function (datos) {
+                console.log(datos.estado);
+        },
+        error: function (xhr, status) {
+            console.log(status);
+            console.log('Disculpe, existió un problema al guardar informacion de la tarjeta');
         },
         complete: function (xhr, status) {
             console.log('No hay mas detalles');

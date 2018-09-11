@@ -37,19 +37,23 @@
 
             function datosUsuario() {
             <%
-              String idUsuario = null;
-              int idCarrito = 0;
-              if (session.getAttribute("carrito") != null) {
-                  idCarrito = ((Carrito) session.getAttribute("carrito")).getId();
-                  idUsuario = ((Carrito) session.getAttribute("carrito")).getUsuario().getEmail();
-              } 
-              
+                String idUsuario = null;
+                int idCarrito = 0;
+                if (session.getAttribute("carrito") != null) {
+                    idCarrito = ((Carrito) session.getAttribute("carrito")).getId();
+                    idUsuario = ((Carrito) session.getAttribute("carrito")).getUsuario().getEmail();
+                }
+
                 if (idUsuario == null) {
-                    idUsuario = "hshhs";
+                    response.sendRedirect("login.jsp");
                 }
             %>
                 var idUsuario = "<%=idUsuario%>";
                 cargarTarjetas(idUsuario);
+            }
+
+            function redirectPay() {
+                location.href = "./";
             }
 
         </script>
@@ -74,7 +78,7 @@
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade in active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <table id="payment" class="table table-hover table-condensed">
                             <tbody>
                                 <tr>
@@ -94,22 +98,22 @@
                                 <tr>
                                     <td>Card Number:</td>
                                     <td>
-                                        <input id="cardnumber" type="number" name="cardnumber" maxlength="16" class="form-control" />
+                                        <input id="cardnumber" type="number" name="cardnumber" maxlength="10" class="form-control" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Expiration Date:</td>
                                     <td>
                                         <select name="month" id="month" class="form-control" value="">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
+                                            <option>01</option>
+                                            <option>02</option>
+                                            <option>03</option>
+                                            <option>04</option>
+                                            <option>05</option>
+                                            <option>06</option>
+                                            <option>07</option>
+                                            <option>08</option>
+                                            <option>09</option>
                                             <option>10</option>
                                             <option>11</option>
                                             <option>12</option>
@@ -132,6 +136,11 @@
                                         <input id="ccv" type="number" name="ccv" maxlength="4" class="form-control" />
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td colspan='2'>Add card to my account:
+                                        <input id="addcard" type="checkbox" name="addcard" />
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -139,7 +148,7 @@
                         <tbody>
                             <tr>
                                 <td><a href="billing.jsp?idCarrito=<%= idCarrito%>" class="btn btn-warning"><i class="fa fa-angle-left"></i> Billing Info</a></td>
-                                <td><a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal" onClick="completePurchase(<%= idCarrito%>)">Complete Payment <i class="fa fa-angle-right"></i></a></td>
+                                <td><a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal" onClick="completePurchase('<%= idUsuario%>',<%= idCarrito%>)">Complete Payment <i class="fa fa-angle-right"></i></a></td>
                             </tr>
                         </tbody>
                     </table>           
@@ -161,7 +170,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button href="index.jsp" type="button" class="btn btn-success btn-block" data-dismiss="modal">OK!</button>
+                        <button href="#" type="button" class="btn btn-success btn-block" data-dismiss="modal" onClick="redirectPay()">OK!</button>
                     </div>
                 </div>
             </div>

@@ -3,15 +3,12 @@ jQuery(document).ready(function ($) {
         event.preventDefault();
         $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
     });
-
     var defaults = {
         containerID: 'toTop', // fading element id
         containerHoverID: 'toTopHover', // fading element hover id
         scrollSpeed: 1200,
         easingType: 'linear'
     };
-
-
     $().UItoTop({easingType: 'easeOutQuart'});
 });
 function cargarTabla(item) {
@@ -41,7 +38,7 @@ function cargarTabla(item) {
 
 
 function cargarCarrito(id) { //agrega item al carrito
-    //console.log("single");
+//console.log("single");
     var valores = {};
     valores.accion = "d";
     valores.idCarrito = $("#idCarrito").val(); //si se mete en la session se tiene q quitar deaqui y meterlo desde el servlet
@@ -52,14 +49,18 @@ function cargarCarrito(id) { //agrega item al carrito
         type: 'post',
         dataType: 'json',
         success: function (datos) {
-            var tabla = '';
-            $.each(datos.ItemsCarrito, function (index, value) {
-                tabla += cargarTabla(datos.ItemsCarrito[index]);
-            });
-            $("#carrito").html(tabla);
 
-            $("#totalCarrito").html(datos.total);
-            $("#totalCarrito1").html(datos.total);
+            if (datos.ItemsCarrito.length == 0) {
+                $('#nextbtn').addClass('disabled');
+            } else {
+                var tabla = '';
+                $.each(datos.ItemsCarrito, function (index, value) {
+                    tabla += cargarTabla(datos.ItemsCarrito[index]);
+                });
+                $("#carrito").html(tabla);
+                $("#totalCarrito").html(datos.total);
+                $("#totalCarrito1").html(datos.total);
+            }
         },
         error: function (xhr, status) {
             console.log('Disculpe, existió un problema al guardar');
@@ -71,7 +72,7 @@ function cargarCarrito(id) { //agrega item al carrito
 }
 
 function eliminarItem() { //agrega item al carrito
-    //console.log("single");
+//console.log("single");
     var valores = {};
     valores.accion = "e";
     valores.idItem = $("#idItem").val(); //si se mete en la session se tiene q quitar deaqui y meterlo desde el servlet
@@ -97,7 +98,7 @@ function eliminarItem() { //agrega item al carrito
 
 
 function actualizarItem(id) { //agrega item al carrito
-    //console.log("single");
+//console.log("single");
     var valores = {};
     valores.accion = "f";
     valores.idItem = id; //si se mete en la session se tiene q quitar deaqui y meterlo desde el servlet
