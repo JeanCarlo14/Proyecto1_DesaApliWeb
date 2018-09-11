@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class ManagerServlet {
     
-public ArrayList<Producto> consultarProductos() {
+public ArrayList<Producto> consultarProductos(String filtro) {
 		Producto producto = new Producto();
 		ArrayList<Producto> listaProductos = new ArrayList<Producto>();
                // Conexion connection = new Conexion();
@@ -33,8 +33,9 @@ public ArrayList<Producto> consultarProductos() {
 		try {
                     
 			if (connection != null) {
-				sql = "{call PA001()}";
+				sql = "{call PA001(?)}";
 				callableStatement = connection.prepareCall(sql);
+                                callableStatement.setString(1, filtro);
 				resultSet = callableStatement.executeQuery();
                               //  System.out.print(resultSet.next());
 				while (resultSet.next()) {

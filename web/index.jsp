@@ -24,6 +24,9 @@
 <script type="text/javascript" src="js/move-top.js"></script>
 <script type="text/javascript" src="js/easing.js"></script>
 <script type="text/javascript" src="js/cargaProductos.js"></script>
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
    </head>
 <body>
     <%@ include file="menu.jsp" %>  
@@ -117,6 +120,7 @@
        						 $('.example1').wmuSlider();         
    						</script> 	           	      
              </div>
+    
              <div class="main">
                 <div class="wrap">
              	  <div class="content-top">
@@ -148,6 +152,12 @@
 					  </div>
 					  <div class="clear"></div>			
 				   </div>
+                    <form class="form-inline">
+    <i class="fa fa-search" aria-hidden="true"></i>
+    <input id = "search" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search" style="width: 100%;
+
+border-color: paleturquoise;">
+</form>
 				  <div class="content-bottom" id="prod-list">
 				   
 			    </div>

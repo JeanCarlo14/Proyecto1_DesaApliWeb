@@ -1,5 +1,8 @@
 $(document).ready(function () {
-    listaProductos();
+    listaProductos('');
+    $( "#search" ).keyup(function() {
+  listaProductos($( "#search" ).val());
+});
 });
 
 function creaCardProducto(prod) {
@@ -48,11 +51,11 @@ function creaCardProducto(prod) {
     return cardHtml;
 }
 
-function listaProductos() {
+function listaProductos(filtro) {
     console.log("pruebas");
     $.ajax({
         url: 'ArticulosServlet',
-        data: {accion: "a"},
+        data: {accion: "a",filtro:filtro},
         type: 'post',
         dataType: 'json',
         success: function (datos) {

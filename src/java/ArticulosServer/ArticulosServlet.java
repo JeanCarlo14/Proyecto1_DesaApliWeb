@@ -178,7 +178,7 @@ public class ArticulosServlet extends HttpServlet {
 		JSONObject nodoProducto = new JSONObject();
 		
 		ManagerServlet mngServlet = new ManagerServlet();
-		ArrayList<Producto> listaProductos = mngServlet.consultarProductos();
+		ArrayList<Producto> listaProductos = mngServlet.consultarProductos(request.getParameter("filtro"));
 
 		for (int i = 0; i < listaProductos.size(); i++) {
 			nodoProducto = new JSONObject();
