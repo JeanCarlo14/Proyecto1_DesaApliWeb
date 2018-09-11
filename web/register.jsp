@@ -41,8 +41,7 @@
 		    			<div><input id="uPass" name="uPass" type="text" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"></div>
 		    	 
                          <button class="grey" onclick="crearUsuario()">Create</button>
-		         <p class="terms">By clicking 'Create Account' you agree to the <a href="#">Terms &amp; Conditions</a>.</p>
-		         
+	         
                          </div>
                           <div class="clear"></div>
 		    </form>

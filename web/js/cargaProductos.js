@@ -33,7 +33,6 @@ function creaCardProducto(prod) {
             '	        <label for="rating-input-1-1" class="rating-star"></label>&nbsp;' +
             '	  (45)' +
             '     </span>' +
-
             '   	    <div class="clear"></div>' +
             '  	</a></div>';
     return cardHtml;
