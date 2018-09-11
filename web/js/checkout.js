@@ -46,7 +46,7 @@ function cargarCarrito(id) { //agrega item al carrito
     //console.log("single");
     var valores = {};
     valores.accion = "d";
-    valores.idCarrito = id; //si se mete en la session se tiene q quitar deaqui y meterlo desde el servlet
+    valores.idCarrito = $("#idCarrito").val(); //si se mete en la session se tiene q quitar deaqui y meterlo desde el servlet
     console.log(valores);
     $.ajax({
         url: 'ArticulosServlet',
