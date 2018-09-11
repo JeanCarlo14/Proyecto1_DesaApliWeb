@@ -41,9 +41,7 @@
 						</div>
 						 <div class="slider-right">
 						    <h1>Classic</h1>
-						    <h2>White</h2>
-						    <p>Lorem ipsum dolor sit amet</p>
-						   
+						    <h2>White</h2>					   
 						 </div>
 						 <div class="clear"></div>
 					 </div>
@@ -56,8 +54,6 @@
 						 <div class="slider-right">
 						    <h1>Classic</h1>
 						    <h2>White</h2>
-						    <p>Lorem ipsum dolor sit amet</p>
-						    <div class="btn"><a href="shop.html">Shop Now</a></div>
 						 </div>
 						 <div class="clear"></div>
 					 </div>
@@ -70,8 +66,6 @@
 						 <div class="slider-right">
 						    <h1>Classic</h1>
 						    <h2>White</h2>
-						    <p>Lorem ipsum dolor sit amet</p>
-						    <div class="btn"><a href="shop.html">Shop Now</a></div>
 						 </div>
 						 <div class="clear"></div>
 					 </div>
@@ -84,8 +78,6 @@
 						 <div class="slider-right">
 						    <h1>Classic</h1>
 						    <h2>White</h2>
-						    <p>Lorem ipsum dolor sit amet</p>
-						    <div class="btn"><a href="shop.html">Shop Now</a></div>
 						 </div>
 						 <div class="clear"></div>
 					 </div>
@@ -98,8 +90,6 @@
 						 <div class="slider-right">
 						    <h1>Classic</h1>
 						    <h2>White</h2>
-						    <p>Lorem ipsum dolor sit amet</p>
-						    <div class="btn"><a href="shop.html">Shop Now</a></div>
 						 </div>
 						 <div class="clear"></div>
 					 </div>
@@ -125,7 +115,6 @@
                 <div class="wrap">
              	  <div class="content-top">
              		<div class="lsidebar span_1_of_c1">
-					  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing</p>
 					</div>
 					<div class="cont span_2_of_c1">
 					  <div class="social">	
