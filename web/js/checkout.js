@@ -37,7 +37,7 @@ function cargarTabla(item) {
 }
 
 
-function cargarCarrito(id) { //agrega item al carrito
+function cargarCarrito() { //agrega item al carrito
 //console.log("single");
     var valores = {};
     valores.accion = "d";
@@ -52,15 +52,14 @@ function cargarCarrito(id) { //agrega item al carrito
 
             if (datos.ItemsCarrito.length == 0) {
                 $('#nextbtn').addClass('disabled');
-            } else {
-                var tabla = '';
-                $.each(datos.ItemsCarrito, function (index, value) {
-                    tabla += cargarTabla(datos.ItemsCarrito[index]);
-                });
-                $("#carrito").html(tabla);
-                $("#totalCarrito").html(datos.total);
-                $("#totalCarrito1").html(datos.total);
             }
+            var tabla = '';
+            $.each(datos.ItemsCarrito, function (index, value) {
+                tabla += cargarTabla(datos.ItemsCarrito[index]);
+            });
+            $("#carrito").html(tabla);
+            $("#totalCarrito").html(datos.total);
+            $("#totalCarrito1").html(datos.total);
         },
         error: function (xhr, status) {
             console.log('Disculpe, existió un problema al guardar');

@@ -5,8 +5,6 @@
  */
 package Model;
 
-import Conexiones.Producto;
-
 /**
  *
  * @author Ana

@@ -5,6 +5,7 @@
  */
 package Conexiones;
 
+import Model.Producto;
 import static Conexiones.Conexion.getConnection;
 import Model.Carrito;
 import Model.Item;

@@ -1,4 +1,9 @@
 --- Nombre de la base de datos BD_Project1 ----
+
+/*drop Database BD_Project1;
+GO*/
+
+
 Create Database BD_Project1;
 GO
 
@@ -422,6 +427,40 @@ BEGIN
 END
 go
 
+/*INSERT INTO Marcas values (1, 'Converse');
+INSERT INTO Marcas values (2, 'Armani Exchange');
+INSERT INTO Marcas values (3, 'Ray-Ban');
+INSERT INTO Marcas values (4, 'Burberry');
+INSERT INTO Marcas values (5, 'Tapestry');
+INSERT INTO Marcas values (6, 'Oakley');
+INSERT INTO Marcas values (7, 'Michael Kors');
+INSERT INTO Marcas values (8, 'Coach');
+INSERT INTO Marcas values (9, 'Prada');
+INSERT INTO Marcas values (10, 'Versace');
+INSERT INTO Marcas values (11, 'Tiffany');
+INSERT INTO Marcas values (12, 'Vogue');
+INSERT INTO Marcas values (13, 'Dolce & Gabbana');
+INSERT INTO Marcas values (14, 'Ralph Lauren');
+INSERT INTO Marcas values (15, 'Asembis');
 
+INSERT INTO Productos values (1, 1, 'LS2412', 23.44, 20, 'pic1.jpg');
+INSERT INTO Productos values (2, 3, 'AX863', 33.44, 15, 'pic2.jpg');
+INSERT INTO Productos values (3, 5, 'PR452', 20.99, 40, 'pic3.jpg');
+INSERT INTO Productos values (4, 2, 'VS632', 15.00, 30, 'pic4.jpg');
+INSERT INTO Productos values (5, 4, 'GA912', 17.75, 30, 'pic5.jpg');
+INSERT INTO Productos values (6, 8, 'AS2412', 46.95, 20, 'pic6.jpg');
+INSERT INTO Productos values (7, 12, 'DG863', 60.55, 15, 'pic7.jpg');
+INSERT INTO Productos values (8, 15, 'VG452', 30.99, 40, 'pic8.jpg');
+INSERT INTO Productos values (9, 14, 'BB632', 32.50, 30, 'pic9.jpg');
+INSERT INTO Productos values (10, 7, 'TF912', 21.20, 30, 'pic10.jpg');
+INSERT INTO Productos values (11, 10, 'RL2412', 45.89, 20, 'pic11.jpg');
 
+EXEC PA003 'Leonardo', 'Flores', 'Picado', 'leofp@glass.com', 'pass';
+EXEC PA005 1456267897, 'leofp@glass.com', '20191201', 345;
+EXEC PA005 1456269, 'leofp@glass.com', '20220101', 345;
+EXEC PA008 'leofp@glass.com', 0;
+EXEC PA012 1, 1, 5;*/
 
+/*SELECT * FROM Carritos;
+SELECT * FROM Usuarios;
+SELECT * FROM Tarjetas;*/

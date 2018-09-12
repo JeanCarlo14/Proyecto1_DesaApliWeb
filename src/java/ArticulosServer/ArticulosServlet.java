@@ -5,10 +5,8 @@
  */
 package ArticulosServer;
 
-import Conexiones.CompuertaMarcas;
-import Conexiones.CompuertaProductos;
 import Conexiones.ManagerServlet;
-import Conexiones.Producto;
+import Model.Producto;
 import Model.Carrito;
 import Model.Item;
 import Model.ItemCarrito;
@@ -84,9 +82,6 @@ public class ArticulosServlet extends HttpServlet {
                     case "n":
                         mensaje = agregarTarjeta(request, response);
                         break;
-                    case "getProds":
-                        mensaje = getAllProds(request, response);
-                        break;
 
                     case "createUser":
                         mensaje = createUser(request, response);
@@ -114,23 +109,6 @@ public class ArticulosServlet extends HttpServlet {
 
     public String metodo1(HttpServletRequest request, HttpServletResponse response) {
 
-        //------ Prueba ------
-        CompuertaProductos cp = new CompuertaProductos();
-        Consumer action = new Consumer() {
-            @Override
-            public void accept(Object t) {
-                if (t.getClass() == Producto.class) {
-                    System.out.println(((Producto) t).getId() + "  " + ((Producto) t).getMarca() + "  " + ((Producto) t).getDescripcion() + "  " + ((Producto) t).getPrecio() + "  " + ((Producto) t).getCantidad());
-                }
-            }
-        };
-        cp.obtenerTodos().forEach(action);
-        action.accept(cp.obtenerPorID(2));
-        cp.obtenerPorMarca(5).forEach(action);
-        cp.obtenerPorNombreMarca("NIKE").forEach(action);
-        cp.obtenerPorDescripcion("3").forEach(action);
-        //-------
-
         JSONObject nodoData = new JSONObject();
         nodoData.put("respuesta", "metodo1");
         nodoData.put("estado", true);
@@ -149,30 +127,6 @@ public class ArticulosServlet extends HttpServlet {
 
         JSONObject nodoData = new JSONObject();
         nodoData.put("respuesta", "metodo3");
-        nodoData.put("estado", true);
-        return nodoData.toString();
-    }
-
-    public String getAllProds(HttpServletRequest request, HttpServletResponse response) {
-        JSONObject nodoData = new JSONObject();
-        CompuertaProductos cp = new CompuertaProductos();
-
-        JSONArray ja = new JSONArray();
-        ArrayList<Producto> prods = cp.obtenerTodos();
-
-        if (prods != null) {
-            for (Producto prod : prods) {
-                JSONObject jp = new JSONObject();
-                jp.put("id", prod.getId());
-                jp.put("marca", prod.getMarca());
-                jp.put("descripcion", prod.getDescripcion());
-                jp.put("precio", prod.getPrecio());
-                jp.put("cantidad", prod.getCantidad());
-                ja.add(jp);
-            }
-        }
-
-        nodoData.put("respuesta", ja);
         nodoData.put("estado", true);
         return nodoData.toString();
     }
